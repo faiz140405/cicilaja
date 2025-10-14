@@ -1,15 +1,15 @@
 <section class="py-20 bg-indigo-50 dark:bg-gray-800 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-4">Apa Kata Pelanggan Kami?</h2>
-        <p class="text-lg text-gray-600 dark:text-gray-400 mb-10">Ratusan orang sudah mewujudkan impiannya bersama CicilAja.</p>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-10">Banyak orangsudah mewujudkan impiannya bersama CicilAja.</p>
     </div>
     
     @php
         // HARDCODED TESTIMONI DATA
         $reviews = [
-            ['quote' => "Prosesnya super cepat! Saya mengajukan laptop, besoknya sudah disetujui. Cicilannya pun ringan. Sangat direkomendasikan!", 'author' => 'Risa M.', 'city' => 'Jakarta', 'bg' => 'bg-white'],
-            ['quote' => "Awalnya ragu, tapi pelayanan Admin sangat responsif. Bukti pembayaran langsung diverifikasi. Transaksi jadi aman dan nyaman.", 'author' => 'Budi S.', 'city' => 'Surabaya', 'bg' => 'bg-white'],
-            ['quote' => "Dapat diskon 10% untuk kulkas baru! Perhitungannya jelas di awal, tidak ada biaya tersembunyi. Terbaik!", 'author' => 'Siti A.', 'city' => 'Bandung', 'bg' => 'bg-white'],
+            // ['quote' => "Prosesnya super cepat! Saya mengajukan laptop, besoknya sudah disetujui. Cicilannya pun ringan. Sangat direkomendasikan!", 'author' => 'Risa M.', 'city' => 'Jakarta', 'bg' => 'bg-white'],
+            // ['quote' => "Awalnya ragu, tapi pelayanan Admin sangat responsif. Bukti pembayaran langsung diverifikasi. Transaksi jadi aman dan nyaman.", 'author' => 'Budi S.', 'city' => 'Surabaya', 'bg' => 'bg-white'],
+            // ['quote' => "Dapat diskon 10% untuk kulkas baru! Perhitungannya jelas di awal, tidak ada biaya tersembunyi. Terbaik!", 'author' => 'Siti A.', 'city' => 'Bandung', 'bg' => 'bg-white'],
             ['quote' => "Sepeda motor baru impian saya langsung terwujud. Prosesnya simpel dan tidak ribet sama sekali. Mantap CicilAja!", 'author' => 'Adi P.', 'city' => 'Malang', 'bg' => 'bg-white'],
             ['quote' => "Sistem denda transparan, dan notifikasi jatuh temponya sangat membantu. Benar-benar solusi kredit modern.", 'author' => 'Lina H.', 'city' => 'Yogyakarta', 'bg' => 'bg-white'],
             ['quote' => "Saya melunasi sisa cicilan lebih awal, dan perhitungannya cepat. Layanan pelunasan dipercepat sangat memuaskan.", 'author' => 'Faiz Nizar N.', 'city' => 'Bd Lampung', 'bg' => 'bg-white'],
@@ -44,11 +44,11 @@
 <style>
     @keyframes marquee {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); } /* Geser ke kiri sejauh 50% dari total lebar konten */
+    100% { transform: translateX(-50%); }
 }
 
 .animate-marquee {
-    animation: marquee 30s linear infinite; /* Sesuaikan 30s untuk kecepatan yang diinginkan */
+    animation: marquee 60s linear infinite;
     display: flex;
 }
 </style>

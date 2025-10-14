@@ -8,7 +8,8 @@
         <title>{{ config('app.name', 'CicilAja') }}</title>
 
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-        <link rel="icon" type="image/img" href="{{ asset('images/cicilaja.png') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" /> 
+        <link rel="icon" type="image/cicilaja.png" href="{{ asset('images/cicilaja.png') }}">
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
