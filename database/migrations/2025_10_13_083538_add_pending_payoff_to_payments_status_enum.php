@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB; // <-- Tambahkan ini
 
 return new class extends Migration
-{
+{   
     public function up(): void
     {
         // MySQL tidak mengizinkan penambahan nilai ke ENUM menggunakan Schema::table.
