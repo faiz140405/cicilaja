@@ -45,12 +45,10 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         
                                         @php
-                                            // Menetapkan variabel untuk kemudahan membaca
                                             $paymentStatus = $payment->status;
                                             $isPendingAction = in_array($paymentStatus, ['pending', 'pending_payoff']);
                                             $actionType = $paymentStatus === 'pending_payoff' ? 'PELUNASAN PENUH' : 'Pembayaran Cicilan';
                                             
-                                            // Menggunakan match expression yang sudah ada
                                             $badgeClass = [
                                                 'verified' => 'bg-green-100 text-green-800',
                                                 'pending' => 'bg-yellow-100 text-yellow-800',

@@ -5,12 +5,12 @@
         <div class="lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
             
             {{-- KOLOM 1: Teks & Tombol --}}
-            <div class="order-2 lg:order-1 text-center lg:text-left pt-10 lg:pt-0">
+            <div class="order-1 lg:order-1 text-center lg:text-left pt-10 lg:pt-0">
                 
                 {{-- Judul --}}
                 <h1 class="text-5xl tracking-tight font-extrabold text-gray-900 sm:text-6xl md:text-7xl dark:text-white">
-                    <span class="block xl:inline">Selamat Datang di</span>
-                    <span class="block text-indigo-600 xl:inline dark:text-indigo-400">CicilAja</span>
+                    <span class="block xl:inline">Selamat Datang di <i class="fa-solid fa-arrow-right text-indigo-600"></i></span>
+                    <span class="block text-indigo-600 xl:inline dark:text-indigo-400">Cicil<span><span class="text-gray-900 dark:text-white">Aja</span></span>
                 </h1>
                 
                 {{-- Subjudul --}}
@@ -33,12 +33,13 @@
                 </div>
             </div>
             
-            {{-- KOLOM 2: Gambar --}}
-            <div class="order-1 lg:order-2 mt-10 lg:mt-0">
-                <img class="w-full h-auto max-h-96 object-contain rounded-xl shadow-2xl"
-                     src="{{ asset('images/hero.png') }}"
-                     alt="Ilustrasi belanja kredit online dan kemudahan bertransaksi">
+            <div class="order-2 lg:order-2 mt-10 lg:mt-0">
+                <img class="w-full h-auto max-h-96 object-contain rounded-xl 
+                            shadow-2xl shadow-indigo-400/50 transform transition duration-500 
+                            hover:scale-[1.02] 
+                            dark:shadow-indigo-700/50"
+                    src="{{ asset('images/icon-bg.png') }}"
+                    alt="Ilustrasi belanja kredit online dan kemudahan bertransaksi">
             </div>
-        </div>
     </div>
 </section>

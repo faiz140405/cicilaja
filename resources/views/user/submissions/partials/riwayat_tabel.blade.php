@@ -41,6 +41,8 @@
                         $status = 'upcoming'; 
                         $penaltyAmount = 0; // Inisialisasi Denda
                         $daysLate = 0;
+                        $isPayableNow = in_array($status, ['due', 'late', 'rejected']);
+                        $isEarlyPayable = $status === 'upcoming'; // BARU: untuk cicilan masa depan
 
                         if ($payment) {
                             $status = $payment->status;
@@ -94,7 +96,11 @@
                                 <span class="text-green-600 font-semibold">Selesai</span>
                             @elseif ($status === 'pending')
                                 <span class="text-yellow-600 italic">Menunggu Verifikasi</span>
-                            @elseif ($isFormActive)
+                            @elseif ($isFormActive || $isEarlyPayable)
+                            @php
+                                $buttonText = $isEarlyPayable ? 'Bayar Lebih Awal' : 'Kirim Pembayaran';
+                                $buttonClass = $isEarlyPayable ? 'bg-orange-500 hover:bg-orange-600' : 'bg-indigo-600 hover:bg-indigo-700';
+                            @endphp
                                 {{-- FORM UPLOAD BUKTI (Aktif hanya jika late, due, rejected) --}}
                                 <form action="{{ route('user.payments.store', $submission) }}" method="POST" enctype="multipart/form-data" class="space-y-1">
                                     @csrf
@@ -102,7 +108,7 @@
                                     
                                     <input type="file" name="proof" required class="block w-full text-sm text-gray-500 file:mr-2 file:py-1 file:px-2 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"/>
                                     
-                                    <button type="submit" class="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-700 shadow-sm transition duration-150 w-full">
+                                    <button type="submit" class="text-xs bg-indigo-600 text-white px-3 py-2 rounded-lg hover:bg-indigo-700 shadow-sm transition duration-150 w-">
                                         Kirim Pembayaran
                                     </button>
                                     @if ($status === 'rejected')

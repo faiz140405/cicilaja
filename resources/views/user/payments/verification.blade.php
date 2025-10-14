@@ -40,20 +40,35 @@
                                         Rp {{ number_format($payment->amount_paid, 0, ',', '.') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{-- Bukti Path harus mengarah ke file yang sudah di-symlink --}}
                                         <a href="{{ asset($payment->proof_path) }}" target="_blank" class="text-blue-600 hover:text-blue-800">Lihat Bukti</a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        @if ($payment->status === 'pending')
-                                            {{-- Form Verifikasi --}}
+                                        
+                                        @php
+                                            $paymentStatus = $payment->status;
+                                            $isPendingAction = in_array($paymentStatus, ['pending', 'pending_payoff']);
+                                            $actionType = $paymentStatus === 'pending_payoff' ? 'PELUNASAN PENUH' : 'Pembayaran Cicilan';
+                                            
+                                            $badgeClass = [
+                                                'verified' => 'bg-green-100 text-green-800',
+                                                'pending' => 'bg-yellow-100 text-yellow-800',
+                                                'rejected' => 'bg-red-100 text-red-800',
+                                                'pending_payoff' => 'bg-indigo-100 text-indigo-800',
+                                            ][$paymentStatus] ?? 'bg-gray-100 text-gray-800';
+                                        @endphp
+                                        
+                                        @if ($isPendingAction)
+                                            <p class="text-xs font-semibold mb-1 text-indigo-600">{{ $actionType }}</p>
+
+                                            {{-- Tombol Setujui --}}
                                             <form action="{{ route('admin.payments.verify.update', $payment) }}" method="POST" class="inline" onsubmit="return confirm('Verifikasi pembayaran ini?');">
                                                 @csrf
                                                 @method('PATCH')
                                                 <input type="hidden" name="status" value="verified">
-                                                <button type="submit" class="text-green-600 hover:text-green-900 mr-3">Verifikasi</button>
+                                                <button type="submit" class="text-green-600 hover:text-green-900 mr-3">Setujui</button>
                                             </form>
 
-                                            {{-- Form Tolak --}}
+                                            {{-- Tombol Tolak --}}
                                             <form action="{{ route('admin.payments.verify.update', $payment) }}" method="POST" class="inline" onsubmit="return confirm('Tolak pembayaran ini?');">
                                                 @csrf
                                                 @method('PATCH')
@@ -61,7 +76,9 @@
                                                 <button type="submit" class="text-red-600 hover:text-red-900">Tolak</button>
                                             </form>
                                         @else
-                                            <span class="text-gray-500 italic">{{ ucfirst($payment->status) }}</span>
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $badgeClass }}">
+                                                {{ ucfirst(str_replace('_', ' ', $paymentStatus)) }}
+                                            </span>
                                         @endif
                                     </td>
                                 </tr>

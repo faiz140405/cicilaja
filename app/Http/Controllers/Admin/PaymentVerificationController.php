@@ -10,7 +10,7 @@ class PaymentVerificationController extends Controller
     // Tampilkan daftar pembayaran yang menunggu verifikasi
     public function index()
     {
-        $payments = Payment::where('status', 'pending')
+        $payments = Payment::where('status', 'pending', 'pending_payoff')
                            ->with('submission.user', 'submission.product')
                            ->latest()
                            ->paginate(10);
@@ -25,24 +25,54 @@ class PaymentVerificationController extends Controller
             'status' => 'required|in:verified,rejected',
         ]);
         
-        if ($payment->status !== 'pending') {
+        // Simpan status lama sebelum update
+        $oldStatus = $payment->status; 
+        
+        if ($oldStatus === 'verified' || $oldStatus === 'rejected') {
              return back()->with('error', 'Pembayaran sudah diproses sebelumnya.');
         }
 
-        $payment->update(['status' => $request->status]);
-        
+        // UPDATE payment status (Ini harus dilakukan sebelum logic check)
+        $payment->update(['status' => $request->status]); 
+        $submission = $payment->submission;
+
         $message = ($request->status === 'verified') 
-                   ? 'Pembayaran berhasil diverifikasi!' 
-                   : 'Pembayaran ditolak.';
-        if ($request->status === 'verified' && $payment->status === 'pending_payoff') {
-            // Jika ini adalah verifikasi pelunasan penuh, set submission status menjadi fully_paid/verified
-            $submission = $payment->submission;
-            $submission->status = 'fully_paid'; // Atau 'verified', tergantung ENUM Anda. Kita asumsikan 'approved' adalah status aktif.
+                    ? 'Pembayaran berhasil diverifikasi!' 
+                    : 'Pembayaran ditolak.';
+        
+        // --- LOGIKA UTAMA PELUNASAN DIPERCEPAT ---
+        // Jika aksi adalah 'verified' DAN status lama adalah 'pending_payoff'
+        if ($request->status === 'verified' && $oldStatus === 'pending_payoff') {
+            
+            // Tandai semua periode tersisa (periode di atas periode pembayaran yang baru diverifikasi) menjadi verified
+            $lastVerifiedPeriod = $payment->period;
+            
+            // 1. Loop dan buat semua periode yang tersisa menjadi LUNAS
+            for ($i = $lastVerifiedPeriod + 1; $i <= $submission->tenor; $i++) {
+                
+                // Gunakan updateOrCreate untuk memastikan tidak ada duplikasi
+                \App\Models\Payment::updateOrCreate(
+                    [
+                        'submission_id' => $submission->id,
+                        'period' => $i,
+                    ],
+                    [
+                        'amount_paid' => $submission->monthly_installment, 
+                        'proof_path' => 'SYSTEM_PAYOFF', 
+                        'payment_date' => \Carbon\Carbon::now(),
+                        'status' => 'verified', 
+                        'created_at' => \Carbon\Carbon::now(),
+                    ]
+                );
+            }
+            
+            // 2. Update status Submission menjadi LUNAS FINAL
+            $submission->status = 'fully_paid';
             $submission->save();
+            
             $message = 'Pelunasan Dipercepat berhasil diverifikasi. Pengajuan Dinyatakan LUNAS!';
         }
 
-        return redirect()->route('admin.payments.verify.index')
-                         ->with('success', $message);
+        return redirect()->route('admin.payments.verify.index')->with('success', $message);
     }
 }

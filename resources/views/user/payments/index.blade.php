@@ -7,7 +7,14 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
-            {{-- Peringatan & Visualisasi lainnya di sini --}}
+            
+            {{-- Notifikasi Sukses/Error --}}
+            @if (session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">{{ session('success') }}</div>
+            @endif
+            @if (session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{{ session('error') }}</div>
+            @endif
 
             <h3 class="text-2xl font-bold text-gray-800">Daftar Cicilan Aktif ({{ count($installments) }} Pengajuan)</h3>
 
@@ -42,7 +49,7 @@
                                     @foreach ($data['periods'] as $period)
                                         @php
                                             $status = $period['status'];
-                                            $isFormActive = in_array($status, ['due', 'late', 'rejected']); // Kunci untuk menampilkan form
+                                            $isFormActive = in_array($status, ['due', 'late', 'rejected']);
                                             
                                             $badge = match ($status) {
                                                 'verified' => ['text-green-800', 'bg-green-100', 'LUNAS'],
@@ -58,7 +65,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">{{ $period['period_number'] }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-semibold">{{ $period['due_date']->format('d M Y') }}</td>
                                             
-                                            {{-- Kolom Denda (Mengambil dari Controller) --}}
+                                            {{-- Kolom Denda --}}
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-bold @if($period['penalty'] > 0) text-red-600 @else text-gray-900 @endif">
                                                 @currency($period['penalty']) 
                                             </td>
@@ -73,7 +80,11 @@
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                                @if ($isFormActive)
+                                                @if ($status === 'verified')
+                                                    <span class="text-green-600 font-semibold">Lunas</span>
+                                                @elseif ($status === 'pending' || $status === 'pending_payoff')
+                                                    <span class="text-yellow-600 italic">Menunggu Verifikasi</span>
+                                                @elseif ($isFormActive)
                                                     {{-- FORM UPLOAD BUKTI --}}
                                                     <form action="{{ route('user.payments.store', $data['submission']) }}" method="POST" enctype="multipart/form-data" class="space-y-1">
                                                         @csrf
@@ -84,17 +95,13 @@
                                                         <button type="submit" class="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-700 shadow-sm transition duration-150 w-full">
                                                             Kirim Pembayaran
                                                         </button>
-                                                        @if ($status == 'rejected')
+                                                        @if ($status === 'rejected')
                                                             <p class="text-red-500 text-xs mt-1 font-medium">Pembayaran ditolak, upload ulang.</p>
                                                         @endif
                                                     </form>
                                                     @error('proof')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                                                @elseif ($status == 'pending')
-                                                    <span class="text-yellow-600 italic">Menunggu Verifikasi</span>
-                                                @elseif ($status == 'verified')
-                                                    <span class="text-green-600 font-semibold">Lunas</span>
                                                 @else
-                                                    <span class="text-blue-600">Belum Waktunya</span>
+                                                    <span class="text-blue-600">Belum Aktif</span>
                                                 @endif
                                             </td>
                                         </tr>

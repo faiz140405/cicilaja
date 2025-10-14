@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Submission;
 use Illuminate\Http\Request;
+use App\Models\Payment;
+use Carbon\Carbon;
 
 class SubmissionController extends Controller
 {
@@ -28,38 +30,53 @@ class SubmissionController extends Controller
         $statusToSet = $request->status;
 
         // Cek apakah status saat ini sudah selesai
-        if (in_array($submission->status, ['approved', 'rejected', 'fully_paid'])) {
-             return redirect()->route('admin.submissions.index')
-                             ->with('error', 'Pengajuan sudah diproses.');
+        if (in_array($submission->status, ['approved', 'rejected', 'fully_paid', 'pending_payoff'])) { 
+             // Izinkan hanya jika pending_payoff untuk diproses lebih lanjut
+             if ($submission->status !== 'pending_payoff') {
+                 return redirect()->route('admin.submissions.index')->with('error', 'Pengajuan sudah diproses.');
+             }
         }
 
         // --- LOGIKA UTAMA (Sama seperti updateStatus sebelumnya) ---
 
-        // 1. Jika ini adalah verifikasi pelunasan penuh
         if ($statusToSet === 'verified' && $submission->status === 'pending_payoff') {
             
-            // a) Tandai semua pembayaran yang belum diverifikasi/lunas menjadi verified
-            $unpaidPeriods = $submission->payments()
-                                        ->whereNotIn('status', ['verified'])
-                                        ->where('period', '>=', $submission->payments()->where('status', 'verified')->count() + 1)
-                                        ->get();
+            // Tentukan periode terakhir yang sudah lunas (verified)
+            $lastVerifiedPeriod = $submission->payments()->where('status', 'verified')->max('period') ?? 0;
             
-            // Update semua pembayaran yang belum selesai menjadi verified
-            foreach ($unpaidPeriods as $payment) {
-                $payment->status = 'verified';
-                $payment->save();
+            // Loop semua periode yang tersisa, dimulai dari periode berikutnya
+            for ($i = $lastVerifiedPeriod + 1; $i <= $submission->tenor; $i++) {
+                
+                // Cari atau buat row payment untuk periode ini
+                Payment::updateOrCreate(
+                    [
+                        'submission_id' => $submission->id,
+                        'period' => $i,
+                    ],
+                    [
+                        'amount_paid' => $submission->monthly_installment, // Nilai cicilan bulanan biasa (untuk data)
+                        'proof_path' => 'SYSTEM_PAYOFF', // Mark dengan string khusus
+                        'payment_date' => Carbon::now(),
+                        'status' => 'verified', // Set ke LUNAS
+                        'created_at' => Carbon::now(),
+                    ]
+                );
             }
             
-            // b) Set status submission menjadi LUNAS FINAL
-            // Catatan: Asumsi ENUM submissions diperbarui menjadi 'paid' atau 'completed'
-            // Jika tidak, kita gunakan 'approved' atau 'rejected' saja.
-            $submission->status = 'approved'; 
+            // Set status submission menjadi LUNAS FINAL
+            $submission->status = 'fully_paid'; 
             $submission->save();
-            $message = 'Pelunasan Dipercepat berhasil diverifikasi. Hutang Dinyatakan LUNAS!';
             
+            // Cari dan set row 'pending_payoff' yang asli menjadi verified juga
+            Payment::where('submission_id', $submission->id)
+                   ->where('status', 'pending_payoff')
+                   ->update(['status' => 'verified']);
+
+            $message = 'Pelunasan Dipercepat berhasil diverifikasi. Pengajuan Dinyatakan LUNAS!';
+        
+        // 2. Verifikasi pengajuan awal ('pending')
         } elseif ($statusToSet === 'approved' || $statusToSet === 'rejected') {
             
-            // 2. Verifikasi pengajuan awal ('pending')
             $submission->status = $statusToSet;
             $submission->save();
             $message = ($statusToSet === 'approved') ? 'Pengajuan berhasil disetujui!' : 'Pengajuan ditolak.';

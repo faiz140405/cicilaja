@@ -107,12 +107,13 @@ class PaymentController extends Controller
 
         // Buat atau update pembayaran
         $submission->payments()->updateOrCreate(
-            ['period' => $request->period],
+             ['period' => $request->period],
             [
                 'amount_paid' => $submission->monthly_installment,
                 'proof_path' => $proofPath,
-                'payment_date' => now(),
+                'payment_date' => Carbon::now(),
                 'status' => 'pending', // Menunggu verifikasi
+                'created_at' => Carbon::now(), // Tambahkan created_at untuk updateOrCreate
             ]
         );
         
@@ -127,8 +128,6 @@ class PaymentController extends Controller
             'is_full_payoff' => 'required|in:1', 
         ]);
 
-        // ... (Cek lunas dan Payoff Amount) ...
-
         // 3. Upload Bukti Pembayaran
         $proofPath = $request->file('proof')->store('public/proofs');
         $proofPath = str_replace('public/', 'storage/', $proofPath);
@@ -136,7 +135,6 @@ class PaymentController extends Controller
         // 4. Hitung Periode Berikutnya (Kunci duplikasi)
         $nextPeriod = $submission->payments()->where('status', 'verified')->count() + 1;
 
-        // --- PERBAIKAN KRITIS MENGGUNAKAN UPDATEORCREATE ---
         $paymentEntry = Payment::updateOrCreate(
             [
                 'submission_id' => $submission->id,
@@ -150,7 +148,6 @@ class PaymentController extends Controller
                 'created_at' => Carbon::now(), // Pastikan created_at diisi jika ini adalah row baru
             ]
         );
-        // --- END PERBAIKAN KRITIS ---
 
         // 5. Update Status Pengajuan menjadi pending_payoff
         $submission->status = 'pending_payoff';
