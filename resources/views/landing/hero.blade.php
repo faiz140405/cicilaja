@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://lottie.host/304ff75b-a30c-4de5-a178-70896e25f6ce/zfsS19pRcb.lottie">
 <section id="beranda" class="relative overflow-hidden bg-white dark:bg-gray-900 transition duration-300 py-16 lg:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -5,12 +6,18 @@
         <div class="lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
             
             {{-- KOLOM 1: Teks & Tombol --}}
-            <div class="order-1 lg:order-1 text-center lg:text-left pt-10 lg:pt-0">
+            <div class="order-1 lg:order-1 text-center lg:text-left pt-0 lg:pt-10">
                 
-                {{-- Judul --}}
+                {{-- Judul: Menggunakan ukuran font besar (sm:text-6xl md:text-7xl) --}}
                 <h1 class="text-5xl tracking-tight font-extrabold text-gray-900 sm:text-6xl md:text-7xl dark:text-white">
-                    <span class="block xl:inline">Selamat Datang di <i class="fa-solid fa-arrow-right text-indigo-600"></i></span>
-                    <span class="block text-indigo-600 xl:inline dark:text-indigo-400">Cicil<span><span class="text-gray-900 dark:text-white">Aja</span></span>
+                    
+                    {{-- Baris 1: Teks Statis --}}
+                    <span class="block xl:inline">Selamat Datang di</span>
+                    
+                    {{-- Baris 2: Teks Dinamis Typed.js --}}
+                    <span class="block text-indigo-600 xl:inline dark:text-indigo-400">
+                        <span id="typed-text-output"></span> 
+                    </span>
                 </h1>
                 
                 {{-- Subjudul --}}
@@ -34,12 +41,38 @@
             </div>
             
             <div class="order-2 lg:order-2 mt-10 lg:mt-0">
-                <img class="w-full h-auto max-h-96 object-contain rounded-xl 
-                            shadow-2xl shadow-indigo-400/50 transform transition duration-500 
-                            hover:scale-[1.02] 
-                            dark:shadow-indigo-700/50"
-                    src="{{ asset('images/icon-bg.png') }}"
-                    alt="Ilustrasi belanja kredit online dan kemudahan bertransaksi">
+            
+            {{-- WRAPPER YANG MENENTUKAN UKURAN ILUSTRASI (Aspek Rasio 1:1) --}}
+            <div class="relative w-full pb-[100%] lg:pb-[75%] rounded-xl transform hover:scale-[1.02] overflow-hidden">
+                
+                {{-- Ganti src dengan link Lottie JSON/Embed Anda yang sebenarnya --}}
+                <iframe 
+                    src="https://lottie.host/embed/6c7a4a03-1e18-4432-9497-c65b8cceb227/erewxGNsiE.json" 
+                    class="absolute top-0 left-0 w-full h-full object-contain"
+                    frameborder="0" 
+                    allowfullscreen 
+                    scrolling="no">
+                </iframe>
             </div>
+        </div>
     </div>
 </section>
+{{-- Letakkan ini di akhir file landing.blade.php --}}
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Cek apakah elemen target ada di halaman
+        if (document.getElementById('typed-text-output')) {
+            var typed = new Typed('#typed-text-output', {
+                strings: [
+                    "CicilAja"
+                ],
+                typeSpeed: 70,    // Kecepatan mengetik
+                backSpeed: 50,    // Kecepatan menghapus
+                loop: true,       // Ulangi terus-menerus
+                backDelay: 2000,  // Jeda sebelum menghapus
+                startDelay: 500
+            });
+        }
+    });
+</script>
