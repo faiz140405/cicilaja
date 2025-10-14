@@ -4,7 +4,7 @@
         
         {{-- HEADER --}}
         <div class="text-center mb-16">
-            <h2 class="text-4xl font-extrabold text-gray-900 dark:text-white"><span class="text-indigo-600 dark:text-indigo-400">Tentang</span> Cicil<span class="text-indigo-600 dark:text-indigo-400">Aja</span></h2>
+            <h2 class="text-4xl font-extrabold text-gray-900 dark:text-white"><span class="text-indigo-600 dark:text-indigo-400"><i class="fa-solid fa-address-card"></i> Tentang</span> Cicil<span class="text-indigo-600 dark:text-indigo-400">Aja</span></h2>
             <p class="mt-3 text-lg text-gray-600 dark:text-gray-400">Solusi pembiayaan yang mudah, cepat, dan terpercaya.</p>
         </div>
 

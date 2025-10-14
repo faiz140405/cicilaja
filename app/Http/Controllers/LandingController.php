@@ -16,11 +16,11 @@ class LandingController extends Controller
     }
     public function faq()
     {
-        return view('static.faq');
+        return view('statics.faq');
     }
     public function terms()
     {
-        return view('static.terms');
+        return view('statics.terms');
     }
     public function allProducts()
     {

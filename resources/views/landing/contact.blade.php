@@ -4,7 +4,7 @@
         
         {{-- HEADER --}}
         <div class="text-center mb-12">
-            <h2 class="text-5xl font-extrabold text-indigo-600 dark:text-indigo-400">Hubungi Kami</h2>
+            <h2 class="text-5xl font-extrabold text-indigo-600 dark:text-indigo-400"><i class="fa-solid fa-headset"></i> Hubungi Kami</h2>
             <p class="mt-3 text-lg text-gray-600 dark:text-gray-400">Kami siap membantu menjawab pertanyaan Anda.</p>
         </div>
 
