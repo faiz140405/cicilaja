@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Submission; // Pastikan Submission diimport
+use app\Models\Product;
 
 class DashboardController extends Controller
 {
@@ -16,6 +17,8 @@ class DashboardController extends Controller
         $user = Auth::user();
         // Hanya ambil submissions yang approved
         $submissions = $user->submissions()->with('product', 'payments')->where('status', 'approved')->latest()->get();
+        $availableProducts = Product::with('category')->where('stock', '>', 0)->latest()->limit(4)->get(); // Ambil 4 produk saja
+
         $paymentMethods = PaymentMethod::where('is_active', true)->get();
         
         $data = $this->calculateFinancialSummary($submissions);
@@ -72,7 +75,8 @@ class DashboardController extends Controller
             'daysLate', 
             'totalPenalty', 
             'dueDate',
-            'progressChartData' // Variabel ini sudah dimasukkan
+            'progressChartData', // Variabel ini sudah dimasukkan
+            'availableProducts'
         ));
     }
     

@@ -68,9 +68,19 @@
                 {{-- END DARK MODE TOGGLE --}}
 
                 @auth
+
+                @if (Auth::user()->role === 'user')
+                        <a href="{{ route('user.products.index') }}" 
+                           class="inline-flex items-center justify-center px-3 py-2 border border-transparent 
+                                  rounded-md shadow-sm text-sm font-medium text-white bg-green-600 
+                                  hover:bg-green-800 transition duration-150 ease-in-out">
+                            Lihat Produk
+                        </a>
+                    @endif
+
                     {{-- Tombol Dashboard Utama --}}
                     <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}" 
-                       class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-500 hover:bg-indigo-600 transition duration-150 ease-in-out">
+                       class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-800 transition duration-150 ease-in-out">
                         Dashboard
                     </a>
                     
@@ -168,6 +178,10 @@
                     
                     <x-responsive-nav-link :href="route('user.payments.index')" :active="request()->routeIs('user.payments.index')">
                         {{ __('Cicilan Saya') }}
+                    </x-responsive-nav-link>
+
+                    <x-responsive-nav-link :href="route('user.products.index')" :active="request()->routeIs('user.products.index')">
+                        {{ __('Daftar Produk') }}
                     </x-responsive-nav-link>
                 @endif
             </div>
