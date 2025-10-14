@@ -4,7 +4,7 @@
         <a href="{{ route('landing') }}" class="inline-block">
             <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
         </a>
-        <h2 class="text-2xl font-bold text-gray-900 mt-3">
+        <h2 class="text-2xl font-bold text-indigo-800 mt-3">
             Masuk ke Akun CicilAja
         </h2>
         <p class="text-sm text-gray-500">

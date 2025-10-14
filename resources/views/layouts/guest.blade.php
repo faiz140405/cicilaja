@@ -22,17 +22,18 @@
             {{-- KOLOM KIRI: GAMBAR GRAFIS (TAMPIL HANYA DI LAYAR BESAR) --}}
             <div class="hidden md:flex md:w-1/2 bg-white-600 items-center justify-center p-10 relative overflow-hidden">
                 <div class="text-center text-indigo z-10">
-                    <h1 class="text-4xl font-extrabold mb-4">Selamat Datang!</h1>
-                    <p class="text-xl opacity-90">Masuk untuk kelola pengajuan kredit Anda. Hanya di</p>
-                    
-                    {{-- Ganti URL ini dengan ilustrasi bertema kredit/dashboard Anda --}}
-                    <img src="{{ asset('images/cicilaja.png') }}" 
-                         alt="Ilustrasi Dashboard" 
-                         class="mt-10 w-full max-w-sm mx-auto shadow-2xl rounded-lg"> 
+                    <h1 class="text-4xl font-extrabold mb-4 text-indigo-800">Selamat Datang!</h1>
+                    <p class="text-xl opacity-90">Masuk untuk kelola pengajuan kredit Anda</p>
 
-                    {{-- Anda harus menempatkan file 'login_graphic.svg' di public/images/ --}}
+                    <iframe 
+                        src="https://lottie.host/embed/04c34f83-8c1f-42b7-b22b-1ba81c3dbaab/zyMyR2FEQE.lottie" 
+                        alt="Ilustrasi Dashboard"
+                        class="mt-10 mx-auto rounded-lg"
+                        style="width: 400px; height: 400px;">
+                    </iframe>
                 </div>
             </div>
+
 
             {{-- KOLOM KANAN: FORM LOGIN --}}
             <div class="w-full md:w-1/2 flex flex-col justify-center items-center p-6 sm:p-8 lg:p-12 bg-white dark:bg-gray-800">

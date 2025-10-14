@@ -8,13 +8,13 @@
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8">
-                <h3 class="text-2xl font-bold mb-6 text-gray-800">Detail Produk</h3>
+                <h3 class="text-2xl font-bold mb-6 text-indigo-800">Detail Produk</h3>
                 <div class="flex border-b pb-4 mb-6">
                     <img src="{{ asset($product->image_path ?? 'placeholder.jpg') }}" alt="{{ $product->name }}" class="w-24 h-24 object-cover rounded mr-6">
                     <div>
                         <p class="text-lg font-semibold">{{ $product->name }}</p>
                         <p class="text-sm text-gray-500">{{ $product->category->name ?? 'Kategori Lain' }}</p>
-                        <p class="text-xl font-extrabold text-red-600 mt-2">Harga Kredit: Rp {{ number_format($product->credit_price, 0, ',', '.') }}</p>
+                        <p class="text-xl font-extrabold text-green-600 mt-2">Harga Kredit: Rp {{ number_format($product->credit_price, 0, ',', '.') }}</p>
                     </div>
                 </div>
 
@@ -54,7 +54,7 @@
                         <label for="down_payment" class="block text-sm font-medium text-gray-700">Uang Muka (DP) - Maksimal Rp {{ number_format($product->credit_price, 0, ',', '.') }}</label>
                         <input type="number" name="down_payment" id="down_payment" x-model.number="dp" min="0" max="{{ $product->credit_price }}" required
                                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2.5 @error('down_payment') border-red-500 @enderror">
-                        @error('down_payment')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                        @error('down_payment')<p class="mt-1 text-sm text-green-600">{{ $message }}</p>@enderror
                     </div>
 
                     {{-- Pilihan Tenor (Lama Cicilan) --}}
@@ -82,7 +82,7 @@
 
                     <div class="mt-8">
                         <button type="submit" :disabled="cicilanBulanan <= 0" 
-                                class="w-full bg-green-500 disabled:bg-gray-400 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                                class="w-full bg-green-500 disabled:bg-green-400 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
                             Kirim Pengajuan Kredit
                         </button>
                     </div>
