@@ -4,7 +4,7 @@
         
         {{-- HEADER --}}
         <div class="text-center mb-16">
-            <h2 class="text-4xl font-extrabold text-gray-900 dark:text-white">Tentang Cicil<span class="text-indigo-600 dark:text-indigo-400">Aja</span></h2>
+            <h2 class="text-4xl font-extrabold text-gray-900 dark:text-white"><span class="text-indigo-600 dark:text-indigo-400">Tentang</span> Cicil<span class="text-indigo-600 dark:text-indigo-400">Aja</span></h2>
             <p class="mt-3 text-lg text-gray-600 dark:text-gray-400">Solusi pembiayaan yang mudah, cepat, dan terpercaya.</p>
         </div>
 
@@ -14,7 +14,7 @@
                 
                 {{-- KOLOM KIRI: MISI KAMI --}}
                 <div class="order-2 lg:order-1">
-                    <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+                    <h3 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-6 flex items-center">
                         <i class="fas fa-rocket text-indigo-600 mr-3"></i> {{-- ICON UNIK --}}
                         Misi Kami
                     </h3>
@@ -28,7 +28,7 @@
 
                 {{-- KOLOM KANAN: KEUNGGULAN KAMI (DENGAN HOVER EFFECT) --}}
                 <div class="order-1 lg:order-2 lg:border-l border-gray-300/50 lg:pl-10">
-                    <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+                    <h3 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-6 flex items-center">
                         <i class="fas fa-hand-holding-heart text-indigo-600 mr-3"></i> {{-- ICON UNIK --}}
                         Keunggulan Kami
                     </h3>

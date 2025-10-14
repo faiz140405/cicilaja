@@ -1,6 +1,6 @@
 <section id="produk" class="py-16 bg-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl font-extrabold text-gray-900">Pilihan Produk Unggulan</h2>
+        <h2 class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">Pilihan Produk Unggulan</h2>
         <p class="mt-4 text-lg text-gray-600">Pilih barang impian Anda dan hitung simulasi cicilan di bawah.</p>
 
         <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

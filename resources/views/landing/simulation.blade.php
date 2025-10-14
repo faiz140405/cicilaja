@@ -1,6 +1,6 @@
 <section id="simulasi" class="py-20 bg-gray-50 scroll-mt-20">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-4xl font-extrabold text-gray-900 text-center mb-2">
+        <h2 class="text-4xl font-extrabold text-indigo-600 dark:text-indigo-400 text-center mb-2">
             Kalkulator Simulasi Pembiayaan
         </h2>
         <p class="text-center text-md text-gray-600 mb-12">

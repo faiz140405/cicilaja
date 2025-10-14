@@ -1,7 +1,7 @@
 <section class="py-20 bg-indigo-50 dark:bg-gray-800 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-4">Apa Kata Pelanggan Kami?</h2>
-        <p class="text-lg text-gray-600 dark:text-gray-400 mb-10">Banyak orangsudah mewujudkan impiannya bersama CicilAja.</p>
+        <h2 class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-4">Apa Kata Pelanggan Kami?</h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-10">Banyak orang sudah mewujudkan impiannya bersama CicilAja.</p>
     </div>
     
     @php
