@@ -12,7 +12,7 @@
         <div class="bg-gray-50 dark:bg-gray-800 p-8 md:p-12 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
                 
-                {{-- KOLOM KIRI: MISI KAMI --}}
+                {{-- KOLOM KIRI: MISI KAMI (DENGAN ANIMASI LOTTIE) --}}
                 <div class="order-2 lg:order-1">
                     <h3 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-6 flex items-center">
                         <i class="fas fa-rocket text-indigo-600 mr-3"></i> {{-- ICON UNIK --}}
@@ -21,13 +21,24 @@
                     <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6 text-lg">
                         CicilAja didirikan dengan visi untuk menghilangkan hambatan dalam memiliki barang impian. Kami percaya bahwa setiap orang berhak mendapatkan akses kredit yang transparan dan terjangkau untuk kebutuhan kendaraan, elektronik, hingga perabotan rumah tangga.
                     </p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                    
+                    {{-- ANIMASI LOTTIE DI BAWAH DESKRIPSI MISI --}}
+                    <div class="relative w-full pb-[75%] mt-8 mx-auto max-w-md"> {{-- Menggunakan pb-[75%] untuk rasio 4:3 --}}
+                        <iframe 
+                            src="https://lottie.host/embed/ce95fde7-ec62-405c-8e59-6f4324406ab5/hQEg8s7noe.lottie" {{-- PASTIKAN INI LINK LOTTIE YANG BENAR --}}
+                            class="absolute top-0 left-0 w-full h-full object-contain rounded-xl"
+                            frameborder="0" 
+                            allowfullscreen 
+                            scrolling="no">
+                        </iframe>
+                    </div>
+
+                    <p class="text-sm text-indigo-500 dark:text-gray-400 mt-6 text-center text-bold"> {{-- Tambahkan margin-top agar tidak terlalu dekat dengan Lottie --}}
                         Proses pengajuan kami dirancang sederhana, cepat, dan 100% online.
                     </p>
                 </div>
 
-                {{-- KOLOM KANAN: KEUNGGULAN KAMI (DENGAN HOVER EFFECT) --}}
-                <div class="order-1 lg:order-2 lg:border-l border-gray-300/50 lg:pl-10">
+                <div class="order-1 lg:order-2 lg:border-l border-gray-300/50 dark:border-gray-700/50 lg:pl-10">
                     <h3 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-6 flex items-center">
                         <i class="fas fa-hand-holding-heart text-indigo-600 mr-3"></i> {{-- ICON UNIK --}}
                         Keunggulan Kami
@@ -67,9 +78,30 @@
                                 </div>
                             </div>
                         </li>
+
+                        {{-- Keunggulan 4: Aman dan Terpercaya --}}
+                        <li class="p-4 rounded-xl border border-transparent hover:border-indigo-300 transition duration-300 hover:shadow-lg bg-white dark:bg-gray-700">
+                            <div class="flex items-start">
+                                <i class="fas fa-shield-alt flex-shrink-0 w-6 h-6 text-red-600 mr-3 mt-1"></i> 
+                                <div>
+                                    <span class="font-bold text-gray-900 dark:text-white">Aman & Terpercaya:</span> 
+                                    <p class="text-gray-700 dark:text-gray-300">Kami menjamin keamanan data dan transaksi Anda dengan teknologi <span class="font-bold text-indigo-600">enkripsi</span> terbaru.</p>
+                                </div>
+                            </div>
+                        </li>
+
+                        {{-- Keunggulan 5: Layanan Pelanggan Responsif --}}
+                        <li class="p-4 rounded-xl border border-transparent hover:border-indigo-300 transition duration-300 hover:shadow-lg bg-white dark:bg-gray-700">
+                            <div class="flex items-start">
+                                <i class="fas fa-headset flex-shrink-0 w-6 h-6 text-purple-600 mr-3 mt-1"></i> 
+                                <div>
+                                    <span class="font-bold text-gray-900 dark:text-white">Layanan Responsif:</span> 
+                                    <p class="text-gray-700 dark:text-gray-300">Tim dukungan pelanggan kami siap membantu Anda <span class="font-bold text-indigo-600">kapan pun</span> Anda membutuhkannya.</p>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>
