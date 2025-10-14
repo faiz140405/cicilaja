@@ -1,0 +1,101 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Pengajuan Kredit') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if (session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">{{ session('success') }}</div>
+            @endif
+            @if (session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">{{ session('error') }}</div>
+            @endif
+
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemohon/Email</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produk/Tenor</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cicilan/DP</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @forelse ($submissions as $submission)
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {{ $submission->user->name ?? 'N/A' }}<br>
+                                        <span class="text-xs text-gray-500">{{ $submission->user->email ?? 'N/A' }}</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $submission->product->name ?? 'N/A' }} ({{ $submission->tenor }} Bln)
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-indigo-600">
+                                        @currency($submission->monthly_installment)<br>
+                                        <span class="text-xs font-normal text-gray-500">DP: @currency($submission->down_payment)</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                                        @php
+                                            $submissionStatus = $submission->status;
+                                            $badgeClass = match ($submissionStatus) {
+                                                'approved' => 'bg-green-100 text-green-800',
+                                                'pending' => 'bg-yellow-100 text-yellow-800',
+                                                'rejected' => 'bg-red-100 text-red-800',
+                                                'pending_payoff' => 'bg-indigo-100 text-indigo-800',
+                                                'fully_paid' => 'bg-green-500 text-white', // Jika Anda menambahkan status fully_paid di ENUM
+                                                default => 'bg-gray-100 text-gray-800',
+                                            };
+                                            $displayText = ucfirst(str_replace('_', ' ', $submissionStatus));
+                                        @endphp
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $badgeClass }}">
+                                            {{ $displayText }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        
+                                        @if ($submission->status === 'pending' || $submission->status === 'pending_payoff') 
+                                            
+                                            {{-- Tampilkan jenis aksi --}}
+                                            <p class="text-xs font-semibold mb-1 text-indigo-600">
+                                                {{ $submission->status === 'pending_payoff' ? 'PELUNASAN PENUH' : 'Pengajuan Awal' }}
+                                            </p>
+
+                                            {{-- Form Verifikasi --}}
+                                            <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="approved">
+                                                <button type="submit" class="text-green-600 hover:text-green-900 mr-3" onclick="return confirm('Verifikasi dan Setujui pengajuan ini?');">Setujui</button>
+                                            </form>
+
+                                            {{-- Form Tolak --}}
+                                            <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="rejected">
+                                                <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Tolak pengajuan ini?');">Tolak</button>
+                                            </form>
+                                        @else
+                                            <span class="text-gray-500 italic">Selesai</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada pengajuan kredit.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                {{ $submissions->links() }}
+            </div>
+        </div>
+    </div>
+</x-app-layout>
