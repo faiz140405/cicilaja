@@ -1,10 +1,10 @@
 <style>
+    /* CSS untuk Animasi Tiga Lapisan Gelombang */
     .wave-container {
         position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 200px;
         overflow: hidden;
         z-index: 0;
         pointer-events: none;
@@ -14,73 +14,64 @@
         position: absolute;
         bottom: 0;
         left: 0;
-        width: 200%;
-        height: 100%;
+        width: 200%; /* Agar bisa berulang mulus */
+        height: 100%; /* Mengisi tinggi container */
         background-repeat: repeat-x;
-        background-size: 1440px 100%;
+        background-size: 1440px 100%; /* Ukuran SVG asli, tinggi 100% */
         transform: translate3d(0, 0, 0);
     }
 
+    /* Gelombang Pertama (Paling Atas, Warna Lebih Terang) */
     .wave.wave-1 {
-        background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%23e0e7ff" fill-opacity="1" d="M0,192L48,202.7C96,213,192,235,288,218.7C384,203,480,149,576,149.3C672,149,768,203,864,213.3C960,224,1056,192,1152,186.7C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>'); /* blue-100 */
+        background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%23e0e7ff" fill-opacity="1" d="M0,192L48,202.7C96,213,192,235,288,218.7C384,203,480,149,576,149.3C672,149,768,203,864,213.3C960,224,1056,192,1152,186.7C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
         animation: wave-animation-1 35s linear infinite;
         opacity: 0.8;
         z-index: 3;
-        height: 100%;
     }
 
+    /* Gelombang Kedua (Tengah, Warna Medium) */
     .wave.wave-2 {
-        background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%23c7d2fe" fill-opacity="1" d="M0,160L48,170.7C96,181,192,203,288,192C384,181,480,139,576,133.3C672,128,768,160,864,181.3C960,203,1056,213,1152,208C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>'); /* blue-200 */
+        background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%23c7d2fe" fill-opacity="1" d="M0,160L48,170.7C96,181,192,203,288,192C384,181,480,139,576,133.3C672,128,768,160,864,181.3C960,203,1056,213,1152,208C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
         animation: wave-animation-2 25s linear infinite;
         opacity: 0.6;
         z-index: 2;
-        height: 100%;
         bottom: -20px;
     }
 
+    /* Gelombang Ketiga (Paling Bawah, Warna Lebih Gelap) */
     .wave.wave-3 {
-        background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%23a5b4fc" fill-opacity="1" d="M0,128L48,144C96,160,192,192,288,192C384,192,480,160,576,160C672,160,768,192,864,192C960,192,1056,160,1152,149.3C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>'); /* blue-300 */
+        background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%23a5b4fc" fill-opacity="1" d="M0,128L48,144C96,160,192,192,288,192C384,192,480,160,576,160C672,160,768,192,864,192C960,192,1056,160,1152,149.3C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
         animation: wave-animation-3 18s linear infinite;
         opacity: 0.4;
         z-index: 1;
-        height: 100%;
         bottom: -40px;
     }
 
     @keyframes wave-animation-1 {
-        0% {
-            background-position-x: 0;
-        }
-        100% {
-            background-position-x: 1440px;
-        }
+        0% { background-position-x: 0; }
+        100% { background-position-x: 1440px; }
     }
 
     @keyframes wave-animation-2 {
-        0% {
-            background-position-x: 0;
-        }
-        100% {
-            background-position-x: -1440px; /* Arah berlawanan */
-        }
+        0% { background-position-x: 0; }
+        100% { background-position-x: -1440px; } 
     }
 
     @keyframes wave-animation-3 {
-        0% {
-            background-position-x: 0;
-        }
-        100% {
-            background-position-x: 1440px;
-        }
+        0% { background-position-x: 0; }
+        100% { background-position-x: 1440px; }
     }
 </style>
-
 <section id="simulasi" class="relative bg-white dark:bg-gray-900 transition duration-300 py-16">
-    {{-- Container Gelombang --}}
-    <div class="wave-container">
-        <div class="wave wave-1"></div>
-        <div class="wave wave-2"></div>
-        <div class="wave wave-3"></div>
+    {{-- LOTTIE ANIMATION AS BACKGROUND (WAVE) --}}
+    <div class="absolute inset-0 z-10 overflow-hidden pointer-events-none">
+        <iframe 
+            src="https://lottie.host/embed/3495ffff-8633-4a1b-a460-51210dce5afc/2jW356Sl8n.lottie" 
+            class="w-full h-full transform opacity-60 scale-150" 
+            frameborder="0" 
+            allowfullscreen 
+            scrolling="no">
+        </iframe>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
