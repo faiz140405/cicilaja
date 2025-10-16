@@ -105,7 +105,7 @@
                     <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Lokasi Kami</h3>
                     <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-xl border border-gray-300 dark:border-gray-600">
                         <iframe 
-                            src="https://maps.google.com/maps?q=Jl,%20Karang%20Rejo,%20Kec.%20Semaka,%20Tanggamus&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+                            src="https://maps.google.com/maps?q=-5.511520267423715,104.52149781086264&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                             width="100%" 
                             height="400" 
                             style="border:0;" 
