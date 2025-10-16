@@ -16,6 +16,10 @@
                             <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                                 {{ __('Dashboard Admin') }}
                             </x-nav-link>
+                            
+                            <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
+                                {{ __('Manajemen Kategori') }}
+                            </x-nav-link>
 
                             <x-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.index')">
                                 {{ __('Laporan Transaksi') }}

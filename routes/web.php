@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\Admin\ProductCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,7 +63,7 @@ Route::middleware('auth')->group(function () {
         Route::post('payments/{submission}', [UserPaymentController::class, 'store'])->name('payments.store');
         Route::post('payments/accelerated/{submission}', [UserPaymentController::class, 'acceleratedStore'])->name('payments.accelerated');
 
-        Route::get('products', [LandingController::class, 'allProducts'])->name('products.index'); 
+        Route::get('products', [LandingController::class, 'allProducts'])->name('products.index');
         
     }); // <-- Penutup GROUP USER (prefix/name)
 
@@ -92,6 +93,11 @@ Route::middleware('auth')->group(function () {
 
         Route::get('admin/reports', [ReportController::class, 'index'])->name('admin.reports.index');
         Route::get('admin/reports/export', [ReportController::class, 'export'])->name('admin.reports.export');
+
+        // manajemen kategori
+        Route::resource('admin/categories', ProductCategoryController::class)
+            ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+            ->names('admin.categories');
     }); // <-- Penutup GROUP ADMIN
 
 
