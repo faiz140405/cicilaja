@@ -8,17 +8,17 @@
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8">
-                <h3 class="text-2xl font-bold mb-6 text-indigo-800">Detail Produk</h3>
+                <h3 class="text-2xl font-bold mb-6 text-indigo-600">Detail Produk</h3>
                 <div class="flex border-b pb-4 mb-6">
                     <img src="{{ asset($product->image_path ?? 'placeholder.jpg') }}" alt="{{ $product->name }}" class="w-24 h-24 object-cover rounded mr-6">
                     <div>
                         <p class="text-lg font-semibold">{{ $product->name }}</p>
                         <p class="text-sm text-gray-500">{{ $product->category->name ?? 'Kategori Lain' }}</p>
-                        <p class="text-xl font-extrabold text-green-600 mt-2">Harga Kredit: Rp {{ number_format($product->credit_price, 0, ',', '.') }}</p>
+                        <p class="text-xl font-extrabold text-indigo-600 mt-2">Harga Kredit: Rp {{ number_format($product->credit_price, 0, ',', '.') }}</p>
                     </div>
                 </div>
 
-                <h3 class="text-2xl font-bold mb-6 text-indigo-700">Form Pengajuan</h3>
+                <h3 class="text-2xl font-bold mb-6 text-indigo-600">Form Pengajuan</h3>
 
                 <form id="submission-form" action="{{ route('user.submissions.store') }}" method="POST" x-data="{ 
                     dp: 0, 

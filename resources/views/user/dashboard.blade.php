@@ -9,18 +9,18 @@
             {{-- TOMBOL PEMICU MODAL --}}
             <button @click="openPaymentModal = true" 
                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-lg shadow-md text-white bg-indigo-600 hover:bg-indigo-700 transition duration-300 z-10">
-                Lihat Metode Pembayaran
+                Metode Pembayaran
             </button>
         </div>
     </x-slot>
 
-    <div class="py-6">
+    <div class="py-6 p-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
             
             {{-- Peringatan Pembayaran (Alert Box Biru - COLLAPSIBLE) --}}
             <div x-data="{ isPaymentAlertOpen: false }" class="bg-indigo-50 border-l-4 border-indigo-500 rounded-lg overflow-hidden">
                 
-                <div class="p-4 flex justify-between items-center cursor-pointer" @click="isPaymentAlertOpen = !isPaymentAlertOpen">
+                <div class="p-6 flex justify-between items-center cursor-pointer" @click="isPaymentAlertOpen = !isPaymentAlertOpen">
                     <p class="font-bold text-indigo-700">
                         ⚠️ Perhatian! Metode Pembayaran Cicilan
                     </p>
@@ -59,7 +59,7 @@
             @endif
             
             {{-- VISUALISASI UTAMA: CHART PROGRESS & SUMMARY --}}
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            <div class="grid grid-cols-2 lg:grid-cols-5 gap-6 p-4">
 
                 {{-- Kolom Kiri (lg:span-2): CHART DOUGHNUT --}}
                 <div class="lg:col-span-2 bg-white shadow-xl rounded-xl p-6 border border-gray-200">
@@ -118,8 +118,8 @@
             </div>
 
             {{-- Riwayat Pembayaran dan Upload Bukti --}}
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl md:rounded-xl">
+                <div class="p-6 text-gray-900 sm:rounded-xl">
                     <h4 class="text-xl font-bold text-gray-800 mb-4">Riwayat Pengajuan Kredit & Pembayaran</h4>
                     
                     @include('user.submissions.partials.riwayat_tabel', ['submissions' => $submissions])
