@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
         // Contoh user testing yang tidak bentrok dengan admin
         User::factory()->create([
             'name' => 'Test User',
-            'email' => 'testing@cicilaja.test', 
+            'email' => 'testing@cicilaja.test',
+            'role' => 'user',
         ]);
         
         $this->call([
@@ -26,8 +27,5 @@ class DatabaseSeeder extends Seeder
             ProductCategorySeeder::class,
             PaymentMethodSeeder::class,
         ]);
-        
-        // Opsional: Buat 10 user biasa (role 'user' default)
-        User::factory(10)->create();
     }
 }

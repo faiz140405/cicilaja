@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-            <h3 class="text-3xl font-bold text-gray-900 mb-6">Ringkasan Sistem CicilAja</h3>
+            <h3 class="text-3xl font-bold text-indigo-600 mb-6">Ringkasan Sistem CicilAja</h3>
             
             {{-- AREA CHART --}}
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
@@ -9,7 +9,7 @@
                 {{-- Kolom Kiri: Ringkasan Status Pengajuan (CHART) --}}
                 {{-- Tambahkan height minimal untuk memastikan container tidak kolaps --}}
                 <div class="lg:col-span-2 bg-white shadow-xl rounded-xl p-6 border border-gray-200" style="min-height: 400px;"> 
-                    <h4 class="text-xl font-bold text-gray-800 mb-4">Status Pengajuan Kredit</h4>
+                    <h4 class="text-xl font-bold text-gray-500 mb-4">Status Pengajuan Kredit</h4>
                     
                     {{-- CONTAINER CHART DENGAN KETINGGIAN YANG PASTI --}}
                     <div class="relative h-72">
@@ -49,7 +49,7 @@
 
             {{-- TRANSAKSI TERBARU (Tetap sama) --}}
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <h4 class="text-xl font-bold text-gray-800 mb-4">5 Pengajuan Terbaru</h4>
+                <h4 class="text-xl font-bold text-gray-500 mb-4">5 Pengajuan Terbaru</h4>
                 
                 <div class="overflow-x-auto">
                     {{-- ... (Tabel transaksi terbaru) ... --}}
