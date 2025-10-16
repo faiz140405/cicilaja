@@ -15,22 +15,22 @@
                     {{-- Ikon Media Sosial (Font Awesome) --}}
                     
                     {{-- Facebook --}}
-                    <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-indigo-400 transition duration-150">
+                    <a href="https://www.facebook.com/cicilaja" aria-label="Facebook" class="text-gray-400 hover:text-indigo-400 transition duration-150">
                         <i class="fab fa-facebook-square text-2xl"></i>
                     </a>
                     
                     {{-- Instagram --}}
-                    <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-indigo-400 transition duration-150">
+                    <a href="https://www.instagram.com/cicilaja" aria-label="Instagram" class="text-gray-400 hover:text-indigo-400 transition duration-150">
                         <i class="fab fa-instagram text-2xl"></i>
                     </a>
                     
                     {{-- Twitter / X --}}
-                    <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-indigo-400 transition duration-150">
+                    <a href="https://twitter.com/cicilaja" aria-label="Twitter" class="text-gray-400 hover:text-indigo-400 transition duration-150">
                         <i class="fab fa-twitter text-2xl"></i>
                     </a>
                     
                     {{-- LinkedIn --}}
-                    <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-indigo-400 transition duration-150">
+                    <a href="https://www.linkedin.com/cicilaja" aria-label="LinkedIn" class="text-gray-400 hover:text-indigo-400 transition duration-150">
                         <i class="fab fa-linkedin text-2xl"></i>
                     </a>
                 </div>
