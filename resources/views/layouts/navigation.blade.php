@@ -9,44 +9,47 @@
                     </a>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex border-b">
                     @auth
                         @if (Auth::user()->role === 'admin')
-                            {{-- ADMIN LINKS --}}
+                            {{-- ADMIN ACTIONS (COMPACT ICON LINKS) --}}
                             <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                                {{ __('Dashboard Admin') }}
+                                <i class="fas fa-home mr-2"></i> {{ __('Dashboard') }}
                             </x-nav-link>
                             
                             <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
-                                {{ __('Manajemen Kategori') }}
-                            </x-nav-link>
-
-                            <x-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.index')">
-                                {{ __('Laporan Transaksi') }}
+                                <i class="fas fa-folder mr-2"></i> {{ __('Kategori') }}
                             </x-nav-link>
                             
                             <x-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.index')">
-                                {{ __('Manajemen Produk') }}
-                            </x-nav-link>
-
-                            <x-nav-link :href="route('admin.submissions.index')" :active="request()->routeIs('admin.submissions.index')">
-                                {{ __('Pengajuan Kredit') }}
+                                <i class="fas fa-box-open mr-2"></i> {{ __('Produk') }}
                             </x-nav-link>
                             
-                            {{-- TAUTAN BARU: Verifikasi Pembayaran --}}
+                            <x-nav-link :href="route('admin.submissions.index')" :active="request()->routeIs('admin.submissions.index')">
+                                <i class="fas fa-file-contract mr-2"></i> {{ __('Kredit') }}
+                            </x-nav-link>
+                            
                             <x-nav-link :href="route('admin.payments.verify.index')" :active="request()->routeIs('admin.payments.verify.index')">
-                                {{ __('Verifikasi Pembayaran') }}
+                                <i class="fas fa-shield-alt mr-2"></i> {{ __('Verifikasi') }}
+                            </x-nav-link>
+
+                            <x-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.index')">
+                                <i class="fas fa-chart-line mr-2"></i> {{ __('Laporan') }}
                             </x-nav-link>
 
                         @elseif (Auth::user()->role === 'user')
                             {{-- USER LINKS --}}
                             <x-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
-                                {{ __('Dashboard Pelanggan') }}
+                                <i class="fas fa-home mr-2"></i>{{ __('Dashboard Pelanggan') }}
                             </x-nav-link>
                             
                             {{-- TAUTAN BARU: Cicilan Saya --}}
                             <x-nav-link :href="route('user.payments.index')" :active="request()->routeIs('user.payments.index')">
-                                {{ __('Cicilan Saya') }}
+                                <i class="fas fa-chart-line mr-2"></i>{{ __('Cicilan Saya') }}
+                            </x-nav-link>
+                            
+                            <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+                                <i class="fa-brands fa-product-hunt mr-2"></i>{{ __('Semua Produk') }}
                             </x-nav-link>
                         @endif
                     @endauth
@@ -96,64 +99,98 @@
         </div>
     </div>
 
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            @auth
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white dark:bg-gray-800 border-t dark:border-gray-700">
+        
+        {{-- Links Navigasi Landing Page --}}
+        <div class="pt-2 pb-3 space-y-1 border-b dark:border-gray-700">
+            
+            @verbatim 
+                <template x-for="item in navItems" :key="item.id">
+                    <a :href="item.href" 
+                       :class="{'bg-gray-100 text-indigo-700 border-indigo-400': activeSection === item.id, 'border-transparent text-gray-600 hover:text-gray-800': activeSection !== item.id}"
+                       class="block w-full ps-3 pe-4 py-2 border-l-4 text-base font-medium focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700 transition duration-150 ease-in-out">
+                        <span x-text="item.name"></span>
+                    </a>
+                </template>
+            @endverbatim
+            
+        </div>
+
+        {{-- Responsive Links Dashboard (Hanya Muncul Jika Login) --}}
+        @auth
+            <div class="pt-2 pb-3 space-y-1 border-b dark:border-gray-700"> {{-- WRAPPER UNTUK ADMIN/USER LINKS --}}
                 @if (Auth::user()->role === 'admin')
-                    {{-- ADMIN LINKS (Responsive) --}}
+                    {{-- ADMIN LINKS (RESPONSIVE) --}}
                     <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                        {{ __('Dashboard Admin') }}
+                        <i class="fas fa-home mr-3"></i> {{ __('Dashboard Admin') }}
+                    </x-responsive-nav-link>
+                    
+                    <x-responsive-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
+                        <i class="fas fa-folder mr-3"></i> {{ __('Manajemen Kategori') }}
                     </x-responsive-nav-link>
                     
                     <x-responsive-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.index')">
-                        {{ __('Manajemen Produk') }}
+                        <i class="fas fa-box-open mr-3"></i> {{ __('Manajemen Produk') }}
                     </x-responsive-nav-link>
                     
                     <x-responsive-nav-link :href="route('admin.submissions.index')" :active="request()->routeIs('admin.submissions.index')">
-                        {{ __('Pengajuan Kredit') }}
+                        <i class="fas fa-file-contract mr-3"></i> {{ __('Pengajuan Kredit') }}
                     </x-responsive-nav-link>
                     
-                    {{-- TAUTAN BARU: Verifikasi Pembayaran --}}
                     <x-responsive-nav-link :href="route('admin.payments.verify.index')" :active="request()->routeIs('admin.payments.verify.index')">
-                        {{ __('Verifikasi Pembayaran') }}
+                        <i class="fas fa-shield-alt mr-3"></i> {{ __('Verifikasi Pembayaran') }}
                     </x-responsive-nav-link>
 
-
+                    <x-responsive-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.index')">
+                        <i class="fas fa-chart-line mr-3"></i> {{ __('Laporan Transaksi') }}
+                    </x-responsive-nav-link>
+                
                 @elseif (Auth::user()->role === 'user')
                     {{-- USER LINKS (Responsive) --}}
                     <x-responsive-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
                         {{ __('Dashboard Pelanggan') }}
                     </x-responsive-nav-link>
                     
-                    {{-- TAUTAN BARU: Cicilan Saya --}}
                     <x-responsive-nav-link :href="route('user.payments.index')" :active="request()->routeIs('user.payments.index')">
                         {{ __('Cicilan Saya') }}
                     </x-responsive-nav-link>
-                @endif
-            @endauth
-        </div>
 
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                    <x-responsive-nav-link :href="route('user.products.index')" :active="request()->routeIs('user.products.index')">
+                        {{ __('Daftar Produk') }}
                     </x-responsive-nav-link>
-                </form>
+                @endif
             </div>
-        </div>
+
+            <div class="pt-4 pb-1 border-t border-gray-200">
+                <div class="px-4">
+                    <div class="font-medium text-base text-gray-800 dark:text-white">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
+                </div>
+
+                <div class="mt-3 space-y-1">
+                    <x-responsive-nav-link :href="route('profile.edit')">
+                        {{ __('Profile') }}
+                    </x-responsive-nav-link>
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-responsive-nav-link :href="route('logout')"
+                                onclick="event.preventDefault(); this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </x-responsive-nav-link>
+                    </form>
+                </div>
+            </div>
+        @else
+            {{-- Tombol Login/Register jika belum login --}}
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('login')">
+                    {{ __('Login') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('register')">
+                    {{ __('Register') }}
+                </x-responsive-nav-link>
+            </div>
+        @endauth
     </div>
 </nav>

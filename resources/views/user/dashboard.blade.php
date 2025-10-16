@@ -2,7 +2,7 @@
     <x-slot name="header">
         {{-- Wrapper Flexbox untuk Menyejajarkan Header dan Tombol --}}
         <div class="flex justify-between items-center relative z-20">
-            <h2 class="font-semibold text-xl text-indigo-600 leading-tight">
+            <h2 class="font-bold text-xl text-indigo-800 leading-tight">
                 Dashboard Pelanggan
             </h2>
             

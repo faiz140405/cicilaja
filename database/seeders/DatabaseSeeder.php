@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Database\Seeders\AdminUserSeeder;
 use Database\Seeders\ProductCategorySeeder;
+use Database\Seeders\PaymentMethodSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminUserSeeder::class, 
             ProductCategorySeeder::class,
+            PaymentMethodSeeder::class,
         ]);
         
         // Opsional: Buat 10 user biasa (role 'user' default)

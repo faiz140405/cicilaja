@@ -7,8 +7,9 @@ use App\Models\PaymentMethod;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\Submission; // Pastikan Submission diimport
-use app\Models\Product;
+use App\Models\Submission;
+use App\Models\Product;
+use App\Models\Payment;
 
 class DashboardController extends Controller
 {

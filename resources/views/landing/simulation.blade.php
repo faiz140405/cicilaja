@@ -141,7 +141,7 @@
 
                 <div class="mt-8 text-center">
                     <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Mau tahu jumlah cicilan yang pasti? Lakukan pengajuan melalui akun Anda.</p>
-                    <a href="{{ route('register') }}" class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-indigo-700 bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-800 dark:text-indigo-100 dark:hover:bg-indigo-700 transition duration-300 shadow-md">
+                    <a href="{{ route('register') }}" class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-indigo-800 bg-indigo-300 hover:bg-indigo-500 hover:text-white dark:bg-indigo-800 dark:text-indigo-100 dark:hover:bg-indigo-700 transition duration-300 shadow-md">
                         Daftar / Masuk Sekarang
                     </a>
                 </div>

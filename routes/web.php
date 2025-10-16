@@ -64,7 +64,6 @@ Route::middleware('auth')->group(function () {
         Route::post('payments/accelerated/{submission}', [UserPaymentController::class, 'acceleratedStore'])->name('payments.accelerated');
 
         Route::get('products', [LandingController::class, 'allProducts'])->name('products.index');
-        
     }); // <-- Penutup GROUP USER (prefix/name)
 
 
