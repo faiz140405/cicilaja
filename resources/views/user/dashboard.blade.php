@@ -97,7 +97,7 @@
                             {{-- PASTIKAN INI ADALAH BUTTON DENGAN Z-INDEX TINGGI --}}
                             <button type="button" @click.prevent="openPayoffModal = true" 
                                     class="text-xs font-bold text-red-600 hover:text-red-800 underline transition duration-150 z-20"
-                                    style="z-index: 999;"> {{-- Z-INDEX EKSPISIT JIKA TERHALANG --}}
+                                    style="z-index: 999;">
                                 Lunas Sekarang? (Lihat Total)
                             </button>
                         </div>
@@ -130,11 +130,7 @@
     
     {{-- MODAL METODE PEMBAYARAN --}}
     <div x-cloak x-show="openPaymentModal" class="fixed inset-0 z-[60] overflow-y-auto"> 
-    
-    {{-- 1. Overlay (z-10) --}}
     <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity z-10" @click="openPaymentModal = false"></div>
-
-    {{-- 2. Modal Content Wrapper --}}
     <div class="flex items-start justify-center min-h-screen w-full pt-16 pb-16">
         
         {{-- Konten Modal (z-20) --}}
@@ -162,7 +158,7 @@
                 </div>
 
                 <div class="mt-6 text-right">
-                    <button @click.stop="openPaymentModal = false" {{-- PERBAIKAN KRITIS: MENAMBAHKAN @click.stop --}}
+                    <button @click.stop="openPaymentModal = false"
                             class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-150">
                         Tutup
                     </button>
