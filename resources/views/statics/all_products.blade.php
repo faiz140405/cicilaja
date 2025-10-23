@@ -7,11 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="icon" type="image/cicilaja.png" href="{{ asset('images/cicilaja.png') }}">
 </head>
 <body class="font-sans antialiased text-gray-800 bg-gray-100">
     @include('layouts.navbar')
 
-    <main class="py-16">
+    <main class="py-7">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {{-- HEADER HALAMAN & SORTIR --}}
@@ -31,7 +32,6 @@
                     </div>
                 </form>
             </div>
-
 
             {{-- Grid Produk --}}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

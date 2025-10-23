@@ -64,5 +64,10 @@
                 <p class="col-span-full text-gray-600">Tidak ada produk yang tersedia saat ini.</p>
             @endforelse
         </div>
+            <div class="mt-12">
+                <a href="{{ route('products.index') }}" class="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition duration-150 flex items-center justify-center">
+                    Lihat Semua Produk Kami <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                </a>
+            </div>
     </div>
 </section>
