@@ -1,6 +1,5 @@
 <x-guest-layout>
     <div class="mb-6 text-center">
-        {{-- Menggunakan komponen logo yang sudah dimodifikasi --}}
         <a href="{{ route('landing') }}" class="inline-block">
             <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
         </a>
@@ -17,6 +16,7 @@
     <form method="POST" action="{{ route('login') }}" class="space-y-5">
         @csrf
 
+        {{-- EMAIL --}}
         <div>
             <x-input-label for="email" :value="__('Email')"/>
             <x-text-input 
@@ -32,20 +32,35 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <div class="mt-4">
+        {{-- PASSWORD --}}
+        <div class="mt-4 relative">
             <x-input-label for="password" :value="__('Password')"/>
 
-            <x-text-input 
-                id="password" 
-                class="block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                type="password"
-                name="password"
-                required 
-                autocomplete="current-password" 
-            />
+            <div class="relative">
+                <input 
+                    id="password" 
+                    class="block w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 pr-10"
+                    type="password"
+                    name="password"
+                    required 
+                    autocomplete="current-password" 
+                />
+
+                {{-- Tombol Toggle Icon --}}
+                <button 
+                    type="button" 
+                    id="togglePassword"
+                    class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none"
+                    tabindex="-1"
+                >
+                    <i id="eyeIcon" class="fa fa-eye-slash"></i>
+                </button>
+            </div>
+
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
+        {{-- REMEMBER + LUPA PASSWORD --}}
         <div class="flex items-center justify-between mt-6">
             <label for="remember_me" class="inline-flex items-center">
                 <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
@@ -59,16 +74,36 @@
             @endif
         </div>
 
+        {{-- BUTTON --}}
         <div class="flex flex-col space-y-3 mt-6">
-            {{-- Tombol Login --}}
             <x-primary-button class="justify-center w-full bg-indigo-600 hover:bg-indigo-700 transition duration-150">
                 {{ __('Masuk') }}
             </x-primary-button>
             
-            {{-- Tombol Daftar / Register --}}
             <a href="{{ route('register') }}" class="w-full text-center py-2.5 border border-gray-300 text-sm font-semibold rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition duration-150 shadow-sm">
                 Belum punya akun? Daftar Sekarang
             </a>
         </div>
     </form>
+
+    {{-- SCRIPT TOGGLE PASSWORD --}}
+    <script>
+        const passwordInput = document.getElementById('password');
+        const toggleButton = document.getElementById('togglePassword');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        toggleButton.addEventListener('click', () => {
+            const isHidden = passwordInput.type === 'password';
+            passwordInput.type = isHidden ? 'text' : 'password';
+            
+            // Ganti icon
+            if (isHidden) {
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-solid', 'fa-eye');
+            } else {
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa', 'fa-eye-slash');
+            }
+        });
+    </script>
 </x-guest-layout>

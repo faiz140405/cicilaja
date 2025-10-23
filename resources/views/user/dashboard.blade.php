@@ -6,11 +6,11 @@
                 Dashboard Pelanggan
             </h2>
             
-            {{-- TOMBOL PEMICU MODAL --}}
+            {{-- TOMBOL PEMICU MODAL
             <button @click="openPaymentModal = true" 
                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-lg shadow-md text-white bg-indigo-600 hover:bg-indigo-700 transition duration-300 z-10">
                 Metode Pembayaran
-            </button>
+            </button> --}}
         </div>
     </x-slot>
 

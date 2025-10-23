@@ -79,20 +79,26 @@
                                             </p>
 
                                             {{-- Form Verifikasi --}}
-                                            <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" class="inline">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="status" value="approved">
-                                                <button type="submit" class="text-green-600 hover:text-green-900 mr-3" onclick="return confirm('Verifikasi dan Setujui pengajuan ini?');">Setujui</button>
-                                            </form>
+                                            <button 
+                                                @click="$dispatch('open-confirmation-modal', {
+                                                    url: '{{ route('admin.submissions.update', $submission) }}',
+                                                    method: 'PATCH',
+                                                    text: 'Setujui',
+                                                    color: 'bg-green-600 hover:bg-green-700',
+                                                    confirmText: 'Ya, Setujui Sekarang'
+                                                })"
+                                                type="button" class="text-green-600 hover:text-green-900 mr-3">Setujui</button>
 
                                             {{-- Form Tolak --}}
-                                            <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" class="inline">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="status" value="rejected">
-                                                <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Tolak pengajuan ini?');">Tolak</button>
-                                            </form>
+                                            <button 
+                                                @click="$dispatch('open-confirmation-modal', {
+                                                    url: '{{ route('admin.submissions.update', $submission) }}',
+                                                    method: 'PATCH',
+                                                    text: 'Tolak',
+                                                    color: 'bg-red-600 hover:bg-red-700',
+                                                    confirmText: 'Ya, Tolak'
+                                                })"
+                                                type="button" class="text-red-600 hover:text-red-900">Tolak</button>
                                         @else
                                             <span class="text-gray-500 italic">Selesai</span>
                                         @endif
@@ -110,4 +116,5 @@
             </div>
         </div>
     </div>
+    @include('admin.partials.confirmation-modal')
 </x-app-layout>

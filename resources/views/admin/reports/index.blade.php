@@ -51,4 +51,5 @@
             </div>
         </div>
     </div>
+    @include('admin.partials.confirmation-modal')
 </x-app-layout>
