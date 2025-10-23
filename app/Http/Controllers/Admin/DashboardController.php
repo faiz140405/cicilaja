@@ -13,6 +13,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $latestSubmissions = Submission::with('user', 'product')->latest()->limit(5)->get();
         // 1. Data Ringkasan Utama (Metrik tetap dipertahankan)
         $stats = [
             'total_products' => Product::count(),

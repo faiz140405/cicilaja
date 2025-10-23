@@ -12,8 +12,16 @@ class ProductCategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = ProductCategory::query();
+        $search = $request->get('search'); // Ambil query pencarian
+
+        if ($search) {
+            // Logic pencarian: Cari di kolom 'name' atau 'description'
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+        }
         $categories = ProductCategory::paginate(10);
         return view('admin.categories.index', compact('categories'));
     }

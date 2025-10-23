@@ -20,16 +20,11 @@ class ReportController extends Controller
         $approvedSubmissions = Submission::where('status', 'approved')->count();
         $rejectedSubmissions = Submission::where('status', 'rejected')->count();
 
-        // 2. Total Nilai Kredit (dari pengajuan yang disetujui)
         $totalApprovedCreditValue = Submission::where('status', 'approved')->sum('total_credit_amount');
-
-        // 3. Jumlah Tunggakan (Sederhana: pembayaran yang jatuh tempo > 30 hari dan belum verified)
-        // Catatan: Implementasi tunggakan yang akurat sangat kompleks dan butuh tabel schedules.
-        // Kita hitung jumlah pembayaran pending/rejected yang sudah lewat tanggal pengajuan + tenor bulan.
         
         $overduePayments = Payment::whereIn('status', ['due', 'rejected', 'pending'])
-                                  ->whereDate('created_at', '<=', Carbon::now()->subDays(30))
-                                  ->count();
+                                ->whereDate('created_at', '<=', Carbon::now()->subDays(30))
+                                ->count();
         
         $metrics = [
             'total_submissions' => $totalSubmissions,
@@ -45,13 +40,16 @@ class ReportController extends Controller
     // Fungsi untuk Export data ke Excel
     public function export(Request $request)
     {
-        // Untuk ekspor PDF, ganti 'xlsx' menjadi 'pdf'
-        $format = $request->input('format', 'xlsx'); 
-        $fileName = 'laporan_kredit_' . now()->format('Ymd_His') . '.' . $format;
+        $format = $request->input('format', 'xlsx'); // Default ke xlsx
         
-        // Catatan: Export ke PDF memerlukan instalasi driver DomPDF/MPDF. 
-        // Untuk kemudahan, kita fokus ke Excel (xlsx).
-        
-        return Excel::download(new SubmissionsExport, $fileName);
+        // PENTING: Gunakan format yang sesuai
+        if ($format === 'pdf') {
+            $fileName = 'laporan_pengajuan_' . now()->format('Ymd') . '.pdf';
+            return Excel::download(new SubmissionsExport, $fileName, \Maatwebsite\Excel\Excel::DOMPDF); 
+            
+        } else {
+            $fileName = 'laporan_pengajuan_' . now()->format('Ymd') . '.xlsx';
+            return Excel::download(new SubmissionsExport, $fileName);
+        }
     }
 }

@@ -1,13 +1,7 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Laporan Transaksi') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h3 class="text-3xl font-bold text-gray-900 mb-6">Metrik Utama</h3>
+            <h3 class="text-3xl font-bold text-indigo-800 mb-6">Manajemen Laporan</h3>
             
             {{-- STATISTIK CARDS METRIK LAPORAN --}}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
@@ -49,7 +43,7 @@
                     </a>
                     
                     {{-- Export ke PDF (Placeholder, butuh instalasi DomPDF/MPDF) --}}
-                    <a href="{{ route('admin.reports.export', ['format' => 'pdf']) }}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 transition duration-150">
+                    <a href="{{ route('admin.reports.export', ['format' => 'pdf']) }}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-white bg-blue-800 hover:bg-blue-900 transition duration-150">
                         Export ke PDF
                     </a>
                 </div>

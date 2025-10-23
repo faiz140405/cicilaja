@@ -7,15 +7,31 @@ use Illuminate\Http\Request;
 use App\Models\Payment;
 use Carbon\Carbon;
 
+
 class SubmissionController extends Controller
 {
     // READ: Tampilkan daftar semua pengajuan
-    public function index()
+    public function index(Request $request)
     {
-        $submissions = Submission::with(['user', 'product'])
-                                 ->latest()
-                                 ->paginate(10);
-        
+        $query = Submission::with(['user', 'product']);
+        $search = $request->get('search'); // Ambil query pencarian
+
+        if ($search) {
+            // Logic pencarian: Cari di kolom name, email, phone_number, atau address user
+            $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%{$search}%")
+                  ->orWhereHas('user', function ($subQuery) use ($search) {
+                      $subQuery->where('name', 'like', "%{$search}%")
+                               ->orWhere('email', 'like', "%{$search}%")
+                               ->orWhere('phone_number', 'like', "%{$search}%")
+                               ->orWhere('address', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('product', function ($subQuery) use ($search) {
+                      $subQuery->where('name', 'like', "%{$search}%");
+                  });
+            });
+        }
+        $submissions = $query->latest()->paginate(10);
         return view('admin.submissions.index', compact('submissions'));
     }
 

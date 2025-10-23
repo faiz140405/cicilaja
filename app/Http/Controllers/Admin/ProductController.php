@@ -11,8 +11,23 @@ use Illuminate\Support\Facades\File;
 class ProductController extends Controller
 {
     // READ: Tampilkan daftar produk
-    public function index()
+    public function index(Request $request)
     {
+        $query = Product::with('category');
+        $search = $request->get('search'); // Ambil query pencarian
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                // Cari di kolom nama produk
+                $q->where('name', 'like', "%{$search}%")
+                    // Cari di kolom harga tunai (jika input adalah angka)
+                    ->orWhere('cash_price', 'like', "%{$search}%")
+                    // Cari di nama kategori yang berelasi
+                    ->orWhereHas('category', function ($subQuery) use ($search) {
+                        $subQuery->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
         $products = Product::with('category')->latest()->paginate(10);
         return view('admin.products.index', compact('products'));
     }

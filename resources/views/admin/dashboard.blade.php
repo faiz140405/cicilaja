@@ -1,4 +1,19 @@
 <x-app-layout>
+    <style>
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .marquee-container {
+            max-width: 150px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-text {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+    </style>
     <div class="py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <h3 class="text-3xl font-bold text-indigo-600 mb-6">Ringkasan Sistem CicilAja</h3>
@@ -49,15 +64,15 @@
 
             {{-- TRANSAKSI TERBARU (Tetap sama) --}}
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <h4 class="text-xl font-bold text-gray-500 mb-4">5 Pengajuan Terbaru</h4>
+                <h4 class="text-xl font-bold text-gray-800 mb-4">5 Pengajuan Terbaru</h4>
                 
                 <div class="overflow-x-auto">
-                    {{-- ... (Tabel transaksi terbaru) ... --}}
                     @if (count($latestSubmissions) > 0)
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemohon</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="min-width: 180px;">Kontak & Lokasi</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produk</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Diajukan</th>
@@ -66,21 +81,52 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($latestSubmissions as $submission)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $submission->user->name ?? 'N/A' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {{ $submission->user->name ?? 'N/A' }}<br>
+                                        <span class="text-xs text-gray-500">{{ $submission->user->email ?? 'N/A' }}</span>
+                                    </td>
+                                    
+                                    {{-- KOLOM KONTAK & LOKASI (BARU) --}}
+                                    <td class="px-6 py-4 text-sm text-gray-700 align-top">
+                                        <div class="mb-1">
+                                            <i class="fas fa-phone-alt text-xs mr-1 text-green-600"></i> 
+                                            {{ $submission->user->phone_number ?? 'Tidak Ada' }}
+                                        </div>
+                                        
+                                        {{-- CONTAINER MARQUEE ALAMAT --}}
+                                        <div class="flex items-start text-xs">
+                                            <i class="fas fa-map-marker-alt text-xs flex-shrink-0 mr-1 mt-1 text-red-600"></i>
+                                            <div class="marquee-container text-indigo-500">
+                                                <span class="marquee-text">
+                                                    {{ $submission->user->address ?? 'Belum Mengisi alamat lengkap' }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    
+                                    {{-- Kolom Produk --}}
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $submission->product->name ?? 'Produk Dihapus' }}</td>
+                                    
+                                    {{-- Kolom Status --}}
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @php
-                                            $badgeClass = [
-                                                'pending' => 'bg-yellow-100 text-yellow-800',
+                                            $submissionStatus = $submission->status;
+                                            $badgeClass = match ($submissionStatus) {
                                                 'approved' => 'bg-green-100 text-green-800',
+                                                'pending' => 'bg-yellow-100 text-yellow-800',
                                                 'rejected' => 'bg-red-100 text-red-800',
                                                 'pending_payoff' => 'bg-indigo-100 text-indigo-800',
-                                            ][$submission->status] ?? 'bg-gray-100 text-gray-800';
+                                                'fully_paid' => 'bg-green-500 text-white',
+                                                default => 'bg-gray-100 text-gray-800',
+                                            };
+                                            $displayText = ucfirst(str_replace('_', ' ', $submissionStatus));
                                         @endphp
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $badgeClass }}">
-                                            {{ ucfirst($submission->status) }}
+                                            {{ $displayText }}
                                         </span>
                                     </td>
+                                    
+                                    {{-- Kolom Diajukan --}}
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $submission->created_at->diffForHumans() }}</td>
                                 </tr>
                             @endforeach

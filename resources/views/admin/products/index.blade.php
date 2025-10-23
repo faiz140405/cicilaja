@@ -1,8 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Manajemen Produk
-        </h2>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0">
+            <h2 class="font-semibold text-xl text-indigo-800 leading-tight">
+                {{ __('Manajemen Produk') }}
+            </h2>
+            <form action="{{ route('admin.products.index') }}" method="GET" class="flex w-full md:w-auto space-x-2">
+                <input type="text" name="search" placeholder="Cari produk..."
+                    class="flex-grow rounded-md border-gray-300 shadow-sm text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    value="{{ request('search') }}">
+                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-150 text-sm">
+                    Cari
+                </button>
+            </form>
+        </div>
     </x-slot>
 
     <div class="py-12">

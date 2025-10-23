@@ -8,8 +8,26 @@ use Illuminate\Http\Request;
 class PaymentVerificationController extends Controller
 {
     // Tampilkan daftar pembayaran yang menunggu verifikasi
-    public function index()
+    public function index(Request $request)
     {
+        $query = Payment::whereIn('status', ['pending', 'pending_payoff'])
+                           ->with('submission.user', 'submission.product');
+                           
+        $search = $request->get('search');
+
+        if ($search) {
+            // Logic pencarian: Cari di nama produk atau di detail user (name/email/phone)
+            $query->where(function ($q) use ($search) {
+                $q->orWhereHas('submission.user', function ($subQuery) use ($search) {
+                    $subQuery->where('name', 'like', "%{$search}%")
+                             ->orWhere('email', 'like', "%{$search}%")
+                             ->orWhere('phone_number', 'like', "%{$search}%");
+                })
+                ->orWhereHas('submission.product', function ($subQuery) use ($search) {
+                    $subQuery->where('name', 'like', "%{$search}%");
+                });
+            });
+        }
         $payments = Payment::where('status', 'pending', 'pending_payoff')
                            ->with('submission.user', 'submission.product')
                            ->latest()

@@ -1,8 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-bold text-xl text-indigo-600 dark:text-gray-200 leading-tight">
-            {{ __('Manajemen Kategori Produk') }}
-        </h2>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0">
+            <h2 class="font-semibold text-xl text-indigo-800 leading-tight">
+                {{ __('Manajemen Kategori Produk') }}
+            </h2>
+            <form action="{{ route('admin.categories.index') }}" method="GET" class="flex w-full md:w-auto space-x-2">
+                <input type="text" name="search" placeholder="Cari kategori..."
+                       class="flex-grow rounded-md border-gray-300 shadow-sm text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                       value="{{ request('search') }}">
+                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-150 text-sm">
+                    Cari
+                </button>
+            </form>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -16,7 +26,6 @@
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-500 dark:text-gray-100">
-                    
                     <div class="mb-3 flex justify-between items-center">
                         <h3 class="text-lg font-bold">Daftar Kategori</h3>
                         <a href="{{ route('admin.categories.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition duration-150">
@@ -36,7 +45,7 @@
                                         Nama Kategori
                                     </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Slug
+                                        Deskripsi
                                     </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                         Aksi
@@ -53,7 +62,7 @@
                                             {{ $category->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $category->slug }}
+                                            {{ $category->description }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a href="{{ route('admin.categories.edit', $category) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600 mr-3">Edit</a>
