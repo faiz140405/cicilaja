@@ -47,6 +47,21 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <div class="mt-4">
+            <x-input-label for="phone_number" :value="__('Nomor Telepon')" />
+            <x-text-input id="phone_number" name="phone_number" type="text" 
+                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                :value="old('phone_number')" required autocomplete="tel" />
+            <x-input-error :messages="$errors->get('phone_number')" class="mt-2" />
+        </div>
+        
+        <div class="mt-4">
+            <x-input-label for="address" :value="__('Alamat Lengkap')" />
+            <textarea id="address" name="address" required 
+                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('address') }}</textarea>
+            <x-input-error :messages="$errors->get('address')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />

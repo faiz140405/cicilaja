@@ -49,9 +49,9 @@
                     </a>
                     
                     {{-- Export ke PDF (Placeholder, butuh instalasi DomPDF/MPDF) --}}
-                    {{-- <a href="{{ route('admin.reports.export', ['format' => 'pdf']) }}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 transition duration-150">
+                    <a href="{{ route('admin.reports.export', ['format' => 'pdf']) }}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 transition duration-150">
                         Export ke PDF
-                    </a> --}}
+                    </a>
                 </div>
                 <p class="mt-4 text-sm text-gray-500">Laporan akan mencakup semua data pengajuan kredit yang pernah masuk.</p>
             </div>

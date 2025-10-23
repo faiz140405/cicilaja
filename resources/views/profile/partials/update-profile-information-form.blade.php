@@ -56,6 +56,30 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="phone_number" :value="__('Nomor Telepon')" class="dark:text-gray-300" />
+            <x-text-input 
+                id="phone_number" 
+                name="phone_number" 
+                type="text" 
+                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
+                :value="old('phone_number', $user->phone_number)" required autocomplete="tel" 
+            />
+            <x-input-error class="mt-2" :messages="$errors->get('phone_number')" />
+        </div>
+        
+        {{-- === INPUT BARU: ALAMAT LENGKAP === --}}
+        <div>
+            <x-input-label for="address" :value="__('Alamat Lengkap')" class="dark:text-gray-300" />
+            <textarea 
+                id="address" 
+                name="address" 
+                required 
+                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            >{{ old('address', $user->address) }}</textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('address')" />
+        </div>
+
         <div class="flex items-center gap-4 pt-4">
             {{-- Tombol Save dengan styling Indigo --}}
             <x-primary-button class="bg-indigo-600 hover:bg-indigo-700">
