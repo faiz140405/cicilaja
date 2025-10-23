@@ -13,7 +13,7 @@
                     @auth
                         @if (Auth::user()->role === 'admin')
                             {{-- ADMIN ACTIONS (COMPACT ICON LINKS) --}}
-                            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                            <x-nav-link  :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                                 <i class="fas fa-home mr-2"></i> {{ __('Dashboard') }}
                             </x-nav-link>
                             
