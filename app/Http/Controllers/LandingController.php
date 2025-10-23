@@ -22,14 +22,28 @@ class LandingController extends Controller
     {
         return view('statics.terms');
     }
-    public function allProducts()
+    public function allProducts(Request $request)
     {
-        // Ambil semua produk yang stoknya > 0, dengan pagination
-        $products = Product::with('category')
-                            ->where('stock', '>', 0)
-                            ->latest()
-                            ->paginate(12); // Tampilkan 12 produk per halaman
+        $query = Product::with('category')->where('stock', '>', 0);
+        $sort = $request->get('sort');
+        $search = $request->get('search'); // Tambahkan pencarian jika sudah diimplementasikan
+
+        // Logika Sortir
+        if ($sort === 'lowest') {
+            $query->orderBy('credit_price', 'asc');
+        } elseif ($sort === 'highest') {
+            $query->orderBy('credit_price', 'desc');
+        } else {
+            $query->latest();
+        }
         
-        return view('statics.all_products', compact('products'));
+        // Logika Pencarian (jika ada)
+        if ($search) {
+             // ... (implementasi logic pencarian) ...
+        }
+
+        $products = $query->paginate(12)->withQueryString(); 
+
+        return view('statics.all_products', compact('products', 'sort'));
     }
 }
