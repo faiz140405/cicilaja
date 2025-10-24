@@ -17,12 +17,10 @@
 }" 
 x-on:open-confirmation-modal.window="openConfirmationModal($event.detail.url, $event.detail.method, $event.detail.text, $event.detail.color, $event.detail.confirmText)"
 x-show="showModal" 
-x-cloak class="fixed inset-0 z-[100] overflow-y-auto"> {{-- Z-index tinggi --}}
+x-cloak class="fixed inset-0 z-[100] overflow-y-auto">
 
-    {{-- Overlay --}}
     <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" @click="showModal = false"></div>
 
-    {{-- Modal Content --}}
     <div class="flex items-center justify-center min-h-screen p-4">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-sm w-full relative z-20"
              x-transition:enter="ease-out duration-300"

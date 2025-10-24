@@ -25,7 +25,7 @@
             @endif
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-500 dark:text-gray-100">
+                <div class="p-6 text-indigo-800 dark:text-gray-100">
                     <div class="mb-3 flex justify-between items-center">
                         <h3 class="text-lg font-bold">Daftar Kategori</h3>
                         <a href="{{ route('admin.categories.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition duration-150">
@@ -67,11 +67,17 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a href="{{ route('admin.categories.edit', $category) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600 mr-3">Edit</a>
                                             
-                                            <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600">Hapus</button>
-                                            </form>
+                                            <button 
+                                                @click.prevent="$dispatch('open-confirmation-modal', {
+                                                    url: '{{ route('admin.categories.destroy', $category) }}',
+                                                    method: 'DELETE',
+                                                    text: 'Hapus Kategori',
+                                                    color: 'bg-red-600 hover:bg-red-700',
+                                                    confirmText: 'Ya, Hapus Permanen'
+                                                })"
+                                                type="button" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600">
+                                                Hapus
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach

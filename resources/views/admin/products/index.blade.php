@@ -61,11 +61,17 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <a href="{{ route('admin.products.edit', $product) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
                                         
-                                        <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus produk ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
-                                        </form>
+                                        <button 
+                                                @click.prevent="$dispatch('open-confirmation-modal', {
+                                                    url: '{{ route('admin.products.destroy', $products) }}',
+                                                    method: 'DELETE',
+                                                    text: 'Hapus Kategori',
+                                                    color: 'bg-red-600 hover:bg-red-700',
+                                                    confirmText: 'Ya, Hapus Permanen'
+                                                })"
+                                                type="button" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600">
+                                                Hapus
+                                            </button>
                                     </td>
                                 </tr>
                             @empty
