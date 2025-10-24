@@ -71,20 +71,30 @@
                                             <p class="text-xs font-semibold mb-1 text-indigo-600">{{ $actionType }}</p>
 
                                             {{-- Tombol Setujui --}}
-                                            <form action="{{ route('admin.payments.verify.update', $payment) }}" method="POST" class="inline" onsubmit="return confirm('Verifikasi pembayaran ini?');">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="status" value="verified">
-                                                <button type="submit" class="text-green-600 hover:text-green-900 mr-3">Setujui</button>
-                                            </form>
+                                            <button 
+                                                @click.prevent="$dispatch('open-confirmation-modal', {
+                                                    url: '{{ route('admin.payments.verify.update', $payment) }}',
+                                                    method: 'SETUJUI',
+                                                    text: 'Setujui Pembayaran Cicilan',
+                                                    color: 'bg-green-600 hover:bg-green-700',
+                                                    confirmText: 'Ya, Setuju'
+                                                })"
+                                                type="button" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-600">
+                                                Setuju
+                                            </button>
 
                                             {{-- Tombol Tolak --}}
-                                            <form action="{{ route('admin.payments.verify.update', $payment) }}" method="POST" class="inline" onsubmit="return confirm('Tolak pembayaran ini?');">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="status" value="rejected">
-                                                <button type="submit" class="text-red-600 hover:text-red-900">Tolak</button>
-                                            </form>
+                                            <button 
+                                                @click.prevent="$dispatch('open-confirmation-modal', {
+                                                    url: '{{ route('admin.payments.verify.update', $payment) }}',
+                                                    method: 'TOLAK',
+                                                    text: 'Tolak Pembayaran Cicilan',
+                                                    color: 'bg-red-600 hover:bg-red-700',
+                                                    confirmText: 'Ya, Hapus'
+                                                })"
+                                                type="button" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600">
+                                                Hapus
+                                            </button>
                                         @else
                                             {{-- Menampilkan Badge Status Akhir jika bukan pending --}}
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $badgeClass }}">
