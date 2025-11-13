@@ -9,7 +9,7 @@
             <div class="order-1 lg:order-1 text-center lg:text-left pt-0 lg:pt-10">
                 
                 {{-- Judul: Menggunakan ukuran font besar (sm:text-6xl md:text-7xl) --}}
-                <h1 class="text-5xl tracking-tight font-extrabold text-gray-900 sm:text-6xl md:text-7xl dark:text-white">
+                <h1 class="text-5xl tracking-tight font-extrabold text-gray-900 sm:text-6xl md:text-7xl dark:text-white" data-aos="fade-right">
                     
                     {{-- Baris 1: Teks Statis --}}
                     <span class="block xl:inline">Selamat Datang di</span>
@@ -21,12 +21,12 @@
                 </h1>
                 
                 {{-- Subjudul --}}
-                <p class="mt-4 text-lg text-gray-500 md:text-xl lg:mx-0 dark:text-gray-400">
+                <p class="mt-4 text-lg text-gray-500 md:text-xl lg:mx-0 dark:text-gray-400" data-aos="fade-right">
                     Beli barang impianmu, cicil dengan mudah dan cepat. Solusi kredit yang terpercaya.
                 </p>
                 
                 {{-- Tombol Aksi --}}
-                <div class="mt-8 flex justify-center lg:justify-start space-x-4">
+                <div class="mt-8 flex justify-center lg:justify-start space-x-4" data-aos="fade-down">
                     <div class="rounded-md shadow">
                         <a href="#produk" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition duration-300 md:py-4 md:text-lg md:px-10">
                             Lihat Produk
@@ -43,7 +43,7 @@
             <div class="order-2 lg:order-2 mt-10 lg:mt-0">
             
             {{-- WRAPPER YANG MENENTUKAN UKURAN ILUSTRASI (Aspek Rasio 1:1) --}}
-            <div class="relative w-full pb-[100%] lg:pb-[75%] rounded-xl transform hover:scale-[1.02] overflow-hidden">
+            <div class="relative w-full pb-[100%] lg:pb-[75%] rounded-xl overflow-hidden" data-aos="zoom-in-up">
                 
                 {{-- Ganti src dengan link Lottie JSON/Embed Anda yang sebenarnya --}}
                 <iframe 
