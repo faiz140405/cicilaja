@@ -1,5 +1,5 @@
 <section id="produk" class="py-16 bg-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="zoom-in-down">
         <h2 class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400"><i class="fa-solid fa-cube"></i> Pilihan Produk</h2>
         <p class="mt-4 text-lg text-gray-600">Pilih barang impian Anda dan hitung simulasi cicilan di bawah.</p>
 
@@ -7,14 +7,11 @@
             @forelse ($products as $product)
                 
                 @php
-                    // Ambil persentase diskon (default 0)
                     $discountPercent = $product->discount_percent ?? 0;
-                    
-                    // Gunakan Credit Price sebagai basis harga cicilan
                     $hargaCicilanFinal = $product->credit_price * (1 - ($discountPercent / 100));
                 @endphp
 
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col justify-between h-full">
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col justify-between h-full" data-aos="zoom-in-up">
                     
                     {{-- Badge Diskon --}}
                     @if ($discountPercent > 0)

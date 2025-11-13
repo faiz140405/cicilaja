@@ -14,8 +14,8 @@
                 
                 {{-- KOLOM KIRI: MISI KAMI (DENGAN ANIMASI LOTTIE) --}}
                 <div class="order-2 lg:order-1">
-                    <h3 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-6 flex items-center">
-                        <i class="fas fa-rocket text-indigo-600 mr-3"></i> {{-- ICON UNIK --}}
+                    <h3 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-6 flex items-center" data-aos="fade-right">
+                        <i class="fas fa-rocket text-indigo-600 mr-3" data-aos="fade-right"></i> {{-- ICON UNIK --}}
                         Misi Kami
                     </h3>
                     <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6 text-lg">
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="order-1 lg:order-2 lg:border-l border-gray-300/50 dark:border-gray-700/50 lg:pl-10">
-                    <h3 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-6 flex items-center">
+                    <h3 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-6 flex items-center" data-aos="fade-right">
                         <i class="fas fa-hand-holding-heart text-indigo-600 mr-3"></i> {{-- ICON UNIK --}}
                         Keunggulan Kami
                     </h3>
@@ -47,7 +47,7 @@
                     <ul class="space-y-4">
                         
                         {{-- Keunggulan 1: Cepat --}}
-                        <li class="p-4 rounded-xl border border-transparent hover:border-indigo-300 transition duration-300 hover:shadow-lg bg-white dark:bg-gray-700">
+                        <li class="p-4 rounded-xl border border-transparent hover:border-indigo-300 transition duration-300 hover:shadow-lg bg-white dark:bg-gray-700" data-aos="flip-left">
                             <div class="flex items-start">
                                 <i class="fas fa-bolt flex-shrink-0 w-6 h-6 text-yellow-600 mr-3 mt-1"></i> {{-- ICON BARU --}}
                                 <div>
@@ -58,7 +58,7 @@
                         </li>
                         
                         {{-- Keunggulan 2: Bunga Rendah --}}
-                        <li class="p-4 rounded-xl border border-transparent hover:border-indigo-300 transition duration-300 hover:shadow-lg bg-white dark:bg-gray-700">
+                        <li class="p-4 rounded-xl border border-transparent hover:border-indigo-300 transition duration-300 hover:shadow-lg bg-white dark:bg-gray-700" data-aos="flip-right">
                             <div class="flex items-start">
                                 <i class="fas fa-percent flex-shrink-0 w-6 h-6 text-blue-600 mr-3 mt-1"></i> {{-- ICON BARU --}}
                                 <div>
@@ -69,7 +69,7 @@
                         </li>
 
                          {{-- Keunggulan 3: Fleksibel --}}
-                        <li class="p-4 rounded-xl border border-transparent hover:border-indigo-300 transition duration-300 hover:shadow-lg bg-white dark:bg-gray-700">
+                        <li class="p-4 rounded-xl border border-transparent hover:border-indigo-300 transition duration-300 hover:shadow-lg bg-white dark:bg-gray-700" data-aos="flip-left">
                             <div class="flex items-start">
                                 <i class="fas fa-calendar-alt flex-shrink-0 w-6 h-6 text-green-600 mr-3 mt-1"></i> {{-- ICON BARU --}}
                                 <div>
@@ -80,7 +80,7 @@
                         </li>
 
                         {{-- Keunggulan 4: Aman dan Terpercaya --}}
-                        <li class="p-4 rounded-xl border border-transparent hover:border-indigo-300 transition duration-300 hover:shadow-lg bg-white dark:bg-gray-700">
+                        <li class="p-4 rounded-xl border border-transparent hover:border-indigo-300 transition duration-300 hover:shadow-lg bg-white dark:bg-gray-700" data-aos="flip-right">
                             <div class="flex items-start">
                                 <i class="fas fa-shield-alt flex-shrink-0 w-6 h-6 text-red-600 mr-3 mt-1"></i> 
                                 <div>
@@ -91,7 +91,7 @@
                         </li>
 
                         {{-- Keunggulan 5: Layanan Pelanggan Responsif --}}
-                        <li class="p-4 rounded-xl border border-transparent hover:border-indigo-300 transition duration-300 hover:shadow-lg bg-white dark:bg-gray-700">
+                        <li class="p-4 rounded-xl border border-transparent hover:border-indigo-300 transition duration-300 hover:shadow-lg bg-white dark:bg-gray-700" data-aos="flip-left">
                             <div class="flex items-start">
                                 <i class="fas fa-headset flex-shrink-0 w-6 h-6 text-purple-600 mr-3 mt-1"></i> 
                                 <div>

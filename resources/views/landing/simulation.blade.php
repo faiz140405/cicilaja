@@ -74,8 +74,8 @@
         </iframe>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center mb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" data-aos="flip-right">
+        <div class="text-center mb-12" data-aos="zoom-in-up">
             <h2 class="text-4xl font-extrabold text-indigo-600 dark:text-white"><i class="fa-solid fa-calculator"></i> Ayo Simulasi-kan Pembayaran Anda</h2>
             <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">Belanja jadi lebih nyaman dengan cek jumlah cicilan per bulan terlebih dahulu.</p>
         </div>
