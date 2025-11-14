@@ -19,7 +19,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         
     </head>
-    <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 transition duration-300" x-data="{ openPaymentModal: false, openPayoffModal: false }">
+    <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 transition duration-300" x-data="{ openPaymentModal: false, openPayoffModal: false, showProofModal: false, currentProofUrl: '' }">
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
@@ -36,6 +36,39 @@
             <main>
                 {{ $slot }}
             </main>
+
+            <div x-cloak x-show="showProofModal" class="fixed inset-0 z-[70] overflow-y-auto">
+        
+        {{-- Overlay --}}
+        <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" @click="showProofModal = false"></div>
+
+        {{-- Modal Content --}}
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="bg-white rounded-lg shadow-2xl max-w-2xl w-full mx-4 relative z-20">
+                <div class="p-4 sm:p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Bukti Pembayaran</h3>
+                    
+                    <template x-if="currentProofUrl.includes('.pdf')">
+                        <div class="text-center p-8 bg-gray-100 rounded-lg">
+                            <p class="text-lg text-red-600 font-semibold">Tautan PDF tidak dapat ditampilkan langsung.</p>
+                            <a :href="currentProofUrl" target="_blank" class="mt-2 inline-block px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                                Download atau Buka PDF
+                            </a>
+                        </div>
+                    </template>
+                    
+                    <template x-if="!currentProofUrl.includes('.pdf')">
+                        <img :src="currentProofUrl" alt="Bukti Pembayaran" class="max-w-full h-auto rounded-lg shadow-md mx-auto" />
+                    </template>
+                    
+                    <div class="mt-6 text-right">
+                        <button @click="showProofModal = false" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400">
+                            Tutup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
     </body>
 </html>

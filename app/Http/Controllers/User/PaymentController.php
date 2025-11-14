@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Submission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Models\Payment;
@@ -101,19 +102,29 @@ class PaymentController extends Controller
             return back()->with('error', 'Cicilan periode ini sudah lunas.');
         }
 
-        // Upload file
-        $proofPath = $request->file('proof')->store('public/proofs');
-        $proofPath = str_replace('public/', 'storage/', $proofPath);
+        // --- METODE NON-SYMLINK (Penyimpanan di public/) ---
+        $imageFile = $request->file('proof');
+        $fileName = time() . '_' . $imageFile->getClientOriginalName();
+        $destinationPath = public_path('uploaded_images/proofs');
+        
+        // Buat folder jika belum ada
+        if (!File::isDirectory($destinationPath)) {
+            File::makeDirectory($destinationPath, 0777, true, true);
+        }
+
+        // Pindahkan file ke folder public/uploaded_images/proofs
+        $imageFile->move($destinationPath, $fileName);
+        $proofPath = 'uploaded_images/proofs/' . $fileName; // Path relatif ke public
 
         // Buat atau update pembayaran
         $submission->payments()->updateOrCreate(
-             ['period' => $request->period],
+            ['period' => $request->period],
             [
                 'amount_paid' => $submission->monthly_installment,
-                'proof_path' => $proofPath,
+                'proof_path' => $proofPath, // <-- SIMPAN PATH BARU
                 'payment_date' => Carbon::now(),
-                'status' => 'pending', // Menunggu verifikasi
-                'created_at' => Carbon::now(), // Tambahkan created_at untuk updateOrCreate
+                'status' => 'pending', 
+                'created_at' => Carbon::now(),
             ]
         );
         
@@ -128,24 +139,32 @@ class PaymentController extends Controller
             'is_full_payoff' => 'required|in:1', 
         ]);
 
-        // 3. Upload Bukti Pembayaran
-        $proofPath = $request->file('proof')->store('public/proofs');
-        $proofPath = str_replace('public/', 'storage/', $proofPath);
+        $imageFile = $request->file('proof');
+        $fileName = time() . '_payoff_' . $imageFile->getClientOriginalName();
+        $destinationPath = public_path('uploaded_images/proofs');
+        
+        if (!File::isDirectory($destinationPath)) {
+            File::makeDirectory($destinationPath, 0777, true, true);
+        }
 
-        // 4. Hitung Periode Berikutnya (Kunci duplikasi)
+        $imageFile->move($destinationPath, $fileName);
+        $proofPath = 'uploaded_images/proofs/' . $fileName; // Path relatif ke public
+        // --- END METODE NON-SYMLINK ---
+
+        // 4. Catat Pembayaran dengan Status Khusus
         $nextPeriod = $submission->payments()->where('status', 'verified')->count() + 1;
 
-        $paymentEntry = Payment::updateOrCreate(
+        Payment::updateOrCreate(
             [
                 'submission_id' => $submission->id,
-                'period' => $nextPeriod, // Kunci unik
+                'period' => $nextPeriod, 
             ],
             [
                 'amount_paid' => $validated['amount'], 
-                'proof_path' => $proofPath,
+                'proof_path' => $proofPath, // <-- SIMPAN PATH BARU
                 'payment_date' => Carbon::now(),
-                'status' => 'pending_payoff', // Status khusus: Menunggu verifikasi pelunasan
-                'created_at' => Carbon::now(), // Pastikan created_at diisi jika ini adalah row baru
+                'status' => 'pending_payoff',
+                'created_at' => Carbon::now(),
             ]
         );
 

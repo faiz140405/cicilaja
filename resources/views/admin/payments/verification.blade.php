@@ -50,7 +50,11 @@
                                         Rp {{ number_format($payment->amount_paid, 0, ',', '.') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <a href="{{ asset($payment->proof_path) }}" target="_blank" class="text-blue-600 hover:text-blue-800">Lihat Bukti</a>
+                                        <button @click="currentProofUrl = '{{ asset($payment->proof_path) }}'; showProofModal = true"
+                                                type="button" 
+                                                class="text-blue-600 hover:text-blue-800 underline">
+                                            Lihat Bukti
+                                        </button>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         
