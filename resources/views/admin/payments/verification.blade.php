@@ -74,7 +74,7 @@
                                             <button 
                                                 @click.prevent="$dispatch('open-confirmation-modal', {
                                                     url: '{{ route('admin.payments.verify.update', $payment) }}',
-                                                    method: 'SETUJUI',
+                                                    method: 'PATCH',
                                                     text: 'Setujui Pembayaran Cicilan',
                                                     color: 'bg-green-600 hover:bg-green-700',
                                                     confirmText: 'Ya, Setuju'
@@ -87,13 +87,13 @@
                                             <button 
                                                 @click.prevent="$dispatch('open-confirmation-modal', {
                                                     url: '{{ route('admin.payments.verify.update', $payment) }}',
-                                                    method: 'TOLAK',
+                                                    method: 'PATCH',
                                                     text: 'Tolak Pembayaran Cicilan',
                                                     color: 'bg-red-600 hover:bg-red-700',
                                                     confirmText: 'Ya, Hapus'
                                                 })"
                                                 type="button" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600">
-                                                Hapus
+                                                Tolak
                                             </button>
                                         @else
                                             {{-- Menampilkan Badge Status Akhir jika bukan pending --}}
