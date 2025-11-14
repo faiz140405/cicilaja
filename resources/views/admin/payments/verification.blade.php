@@ -94,7 +94,7 @@
                                                     method: 'PATCH',
                                                     text: 'Tolak Pembayaran Cicilan',
                                                     color: 'bg-red-600 hover:bg-red-700',
-                                                    confirmText: 'Ya, Hapus'
+                                                    confirmText: 'Ya, Tolak'
                                                 })"
                                                 type="button" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600">
                                                 Tolak

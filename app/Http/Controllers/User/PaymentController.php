@@ -148,8 +148,7 @@ class PaymentController extends Controller
         }
 
         $imageFile->move($destinationPath, $fileName);
-        $proofPath = 'uploaded_images/proofs/' . $fileName; // Path relatif ke public
-        // --- END METODE NON-SYMLINK ---
+        $proofPath = 'uploaded_images/proofs/' . $fileName;
 
         // 4. Catat Pembayaran dengan Status Khusus
         $nextPeriod = $submission->payments()->where('status', 'verified')->count() + 1;
