@@ -70,39 +70,40 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    
+                                    @if ($submission->status === 'pending' || $submission->status === 'pending_payoff') 
                                         
-                                        @if ($submission->status === 'pending' || $submission->status === 'pending_payoff') 
+                                        {{-- Tampilkan jenis aksi --}}
+                                        <p class="text-xs font-semibold mb-1 text-indigo-600">
+                                            {{ $submission->status === 'pending_payoff' ? 'PELUNASAN PENUH' : 'Pengajuan Awal' }}
+                                        </p>
+
+                                        {{-- Tombol Setujui (Pemicu Modal) --}}
+                                        <button 
+                                            @click.prevent="$dispatch('open-confirmation-modal', {
+                                                url: '{{ route('admin.submissions.update', $submission) }}',
+                                                method: 'PATCH',
+                                                text: 'Setujui Pengajuan',
+                                                color: 'bg-green-600 hover:bg-green-700',
+                                                confirmText: 'Ya, Setujui'
+                                            })"
+                                            type="button" class="text-green-600 hover:text-green-900 mr-3 font-bold underline">Setujui</button>
+
+                                        {{-- Tombol Tolak (Pemicu Modal) --}}
+                                        <button 
+                                            @click.prevent="$dispatch('open-confirmation-modal', {
+                                                url: '{{ route('admin.submissions.update', $submission) }}',
+                                                method: 'PATCH',
+                                                text: 'Tolak Pengajuan', {{-- Teks yang lebih spesifik --}}
+                                                color: 'bg-red-600 hover:bg-red-700',
+                                                confirmText: 'Ya, Tolak'
+                                            })"
+                                            type="button" class="text-red-600 hover:text-red-900 font-bold underline">Tolak</button>
                                             
-                                            {{-- Tampilkan jenis aksi --}}
-                                            <p class="text-xs font-semibold mb-1 text-indigo-600">
-                                                {{ $submission->status === 'pending_payoff' ? 'PELUNASAN PENUH' : 'Pengajuan Awal' }}
-                                            </p>
-
-                                            {{-- Form Verifikasi --}}
-                                            <button 
-                                                @click="$dispatch('open-confirmation-modal', {
-                                                    url: '{{ route('admin.submissions.update', $submission) }}',
-                                                    method: 'PATCH',
-                                                    text: 'Setujui',
-                                                    color: 'bg-green-600 hover:bg-green-700',
-                                                    confirmText: 'Ya, Setujui Sekarang'
-                                                })"
-                                                type="button" class="text-green-600 hover:text-green-900 mr-3">Setujui</button>
-
-                                            {{-- Form Tolak --}}
-                                            <button 
-                                                @click="$dispatch('open-confirmation-modal', {
-                                                    url: '{{ route('admin.submissions.update', $submission) }}',
-                                                    method: 'PATCH',
-                                                    text: 'Tolak',
-                                                    color: 'bg-red-600 hover:bg-red-700',
-                                                    confirmText: 'Ya, Tolak'
-                                                })"
-                                                type="button" class="text-red-600 hover:text-red-900">Tolak</button>
-                                        @else
-                                            <span class="text-gray-500 italic">Selesai</span>
-                                        @endif
-                                    </td>
+                                    @else
+                                        <span class="text-gray-500 italic">Selesai</span>
+                                    @endif
+                                </td>
                                 </tr>
                             @empty
                                 <tr>

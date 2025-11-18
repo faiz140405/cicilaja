@@ -103,6 +103,4 @@ class SubmissionController extends Controller
         return redirect()->route('admin.submissions.index')
                          ->with('success', $message);
     }
-    
-    // Metode update dan destroy lainnya tidak kita gunakan, hanya index dan updateStatus
 }

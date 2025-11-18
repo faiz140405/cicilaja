@@ -1,9 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
+        {{-- Wrapper Flexbox untuk Judul dan Form Pencarian --}}
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0">
-            <h2 class="font-semibold text-xl text-indigo-800 leading-tight">
-                {{ __('Verifikasi Pembayaran') }}
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Verifikasi Pembayaran') }} (Pending)
             </h2>
+            
             <form action="{{ route('admin.payments.verify.index') }}" method="GET" class="flex w-full md:w-auto space-x-2">
                 <input type="text" name="search" placeholder="Cari pemohon, email, atau produk..."
                        class="flex-grow rounded-md border-gray-300 shadow-sm text-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -47,10 +49,10 @@
                                         {{ $payment->period }} / {{ $payment->submission->tenor }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-indigo-600">
-                                        Rp {{ number_format($payment->amount_paid, 0, ',', '.') }}
+                                        @currency($payment->amount_paid)
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <button @click="currentProofUrl = '{{ asset($payment->proof_path) }}'; showProofModal = true"
+                                        <button @click="currentProofUrl = '{{ $payment->proof_url }}'; showProofModal = true"
                                                 type="button" 
                                                 class="text-blue-600 hover:text-blue-800 underline">
                                             Lihat Bukti
@@ -59,6 +61,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         
                                         @php
+                                            // PERBAIKAN: Menggunakan $payment->status
                                             $paymentStatus = $payment->status;
                                             $isPendingAction = in_array($paymentStatus, ['pending', 'pending_payoff']);
                                             $actionType = $paymentStatus === 'pending_payoff' ? 'PELUNASAN PENUH' : 'Pembayaran Cicilan';
@@ -74,33 +77,28 @@
                                         @if ($isPendingAction)
                                             <p class="text-xs font-semibold mb-1 text-indigo-600">{{ $actionType }}</p>
 
-                                            {{-- Tombol Setujui --}}
+                                            {{-- Tombol Setujui (Memicu Modal) --}}
                                             <button 
                                                 @click.prevent="$dispatch('open-confirmation-modal', {
                                                     url: '{{ route('admin.payments.verify.update', $payment) }}',
                                                     method: 'PATCH',
-                                                    text: 'Setujui Pembayaran Cicilan',
+                                                    text: 'Setujui Pembayaran',
                                                     color: 'bg-green-600 hover:bg-green-700',
-                                                    confirmText: 'Ya, Setuju'
+                                                    confirmText: 'Ya, Setujui'
                                                 })"
-                                                type="button" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-600">
-                                                Setuju
-                                            </button>
+                                                type="button" class="text-green-600 hover:text-green-900 mr-3 font-bold underline">Setujui</button>
 
-                                            {{-- Tombol Tolak --}}
+                                            {{-- Tombol Tolak (Memicu Modal) --}}
                                             <button 
                                                 @click.prevent="$dispatch('open-confirmation-modal', {
                                                     url: '{{ route('admin.payments.verify.update', $payment) }}',
                                                     method: 'PATCH',
-                                                    text: 'Tolak Pembayaran Cicilan',
+                                                    text: 'Tolak Pembayaran',
                                                     color: 'bg-red-600 hover:bg-red-700',
                                                     confirmText: 'Ya, Tolak'
                                                 })"
-                                                type="button" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600">
-                                                Tolak
-                                            </button>
+                                                type="button" class="text-red-600 hover:text-red-900 font-bold underline">Tolak</button>
                                         @else
-                                            {{-- Menampilkan Badge Status Akhir jika bukan pending --}}
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $badgeClass }}">
                                                 {{ ucfirst(str_replace('_', ' ', $paymentStatus)) }}
                                             </span>
@@ -121,5 +119,8 @@
             </div>
         </div>
     </div>
+    
+    {{-- SISIPKAN MODAL KONFIRMASI (Wajib ada) --}}
     @include('admin.partials.confirmation-modal')
+
 </x-app-layout>

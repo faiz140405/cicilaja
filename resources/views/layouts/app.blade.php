@@ -36,6 +36,8 @@
             <main>
                 {{ $slot }}
             </main>
+        </div>
+        @include('admin.partials.confirmation-modal')
 
             <div x-cloak x-show="showProofModal" class="fixed inset-0 z-[70] overflow-y-auto">
         
