@@ -85,35 +85,52 @@ class ProductController extends Controller
 
     // UPDATE: Update data produk
     public function update(Request $request, Product $product)
-    {
-        // ... (validasi lainnya)
+{
+    // VALIDASI
+    $validated = $request->validate([
+        'name' => 'required|max:255',
+        'product_category_id' => 'required|exists:product_categories,id',
+        'cash_price' => 'required|integer|min:0',
+        'credit_price' => 'required|integer|min:0',
+        'stock' => 'required|integer|min:0',
+        'description' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        if ($request->hasFile('image')) {
-            // Hapus gambar lama (dari folder public yang baru)
-            if ($product->image_path && File::exists(public_path($product->image_path))) {
-                File::delete(public_path($product->image_path));
-            }
+    // HANDLE IMAGE UPDATE
+    if ($request->hasFile('image')) {
 
-            $destinationPath = public_path('uploaded_images/products'); 
-            if (!File::isDirectory($destinationPath)) {
-                File::makeDirectory($destinationPath, 0777, true, true);
-            }
-            
-            $imageFile = $request->file('image');
-            $imageName = time() . '_' . $imageFile->getClientOriginalName();
-            $imageFile->move($destinationPath, $imageName);
-            
-            $validated['image_path'] = 'uploaded_images/products/' . $imageName;
-        } else {
-             // Pastikan field 'image' tidak ikut di-update jika kosong
-             if(isset($validated['image'])) unset($validated['image']);
+        // Hapus gambar lama
+        if ($product->image_path && File::exists(public_path($product->image_path))) {
+            File::delete(public_path($product->image_path));
         }
-        
-        $product->update($validated);
 
-        return redirect()->route('admin.products.index')
-                         ->with('success', 'Produk berhasil diperbarui!');
+        // Buat folder jika belum ada
+        $destinationPath = public_path('uploaded_images/products'); 
+        if (!File::isDirectory($destinationPath)) {
+            File::makeDirectory($destinationPath, 0777, true, true);
+        }
+
+        // Upload file baru
+        $imageFile = $request->file('image');
+        $imageName = time() . '_' . $imageFile->getClientOriginalName();
+        $imageFile->move($destinationPath, $imageName);
+
+        // Simpan path baru
+        $validated['image_path'] = 'uploaded_images/products/' . $imageName;
     }
+
+    // Buang field "image" agar tidak masuk DB
+    unset($validated['image']);
+
+    // UPDATE DATA PRODUK
+    $product->update($validated);
+
+    return redirect()
+        ->route('admin.products.index')
+        ->with('success', 'Produk berhasil diperbarui!');
+}
+
 
     // DESTROY: Hapus produk
     public function destroy(Product $product)

@@ -87,14 +87,24 @@
                 
                 <div class="mb-6">
                     <label for="hargaBarang" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Harga Barang</label>
-                    <input type="number" id="hargaBarang" x-model.number="hargaBarang" @input="calculate" placeholder="0"
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <input type="text" id="hargaBarang"
+                            x-model="hargaBarangDisplay"
+                            @input="formatInputRupiah($event, 'hargaBarang'); calculate()"
+                            placeholder="Rp. 0"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm 
+                                    focus:ring-indigo-500 focus:border-indigo-500 
+                                    dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 </div>
 
                 <div class="mb-6">
                     <label for="uangMuka" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Jumlah Uang Muka (DP)</label>
-                    <input type="number" id="uangMuka" x-model.number="uangMuka" @input="calculate" placeholder="0"
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <input type="text" id="uangMuka"
+                            x-model="uangMukaDisplay"
+                            @input="formatInputRupiah($event, 'uangMuka'); calculate()"
+                            placeholder="Rp. 0"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm 
+                                    focus:ring-indigo-500 focus:border-indigo-500 
+                                    dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 </div>
 
                 <div class="mb-6">
@@ -153,33 +163,64 @@
 {{-- Alpine.js untuk Kalkulator --}}
 <script>
     function calculator() {
-        return {
-            hargaBarang: 0,
-            uangMuka: 0,
-            tenor: 3, // Default tenor
-            cicilanPerBulan: 0,
-            bunga: 0.10, // 10% flat
-            biayaAdmin: 50000, // Contoh biaya admin
-            biayaBulanan: 10000, // Contoh biaya bulanan
+    return {
+        // nilai angka murni
+        hargaBarang: 0,
+        uangMuka: 0,
+        hargaBarangDisplay: "",
+        uangMukaDisplay: "",
+        tenor: 3,
+        cicilanPerBulan: 0,
+        bunga: 0.10,
+        biayaAdmin: 50000,
+        biayaBulanan: 10000,
 
-            calculate() {
-                const sisaPokok = this.hargaBarang - this.uangMuka;
-                if (sisaPokok <= 0 || this.tenor === 0) {
-                    this.cicilanPerBulan = 0;
-                    return;
-                }
+        formatInputRupiah(event, modelName) {
+            let el = event.target;
+            let angka = el.value.replace(/[^\d]/g, "");
 
-                const bungaPerBulan = (sisaPokok * this.bunga) / this.tenor; // Bunga flat per bulan
-                this.cicilanPerBulan = (sisaPokok / this.tenor) + bungaPerBulan + (this.biayaAdmin / this.tenor) + this.biayaBulanan;
-                this.cicilanPerBulan = Math.round(this.cicilanPerBulan / 100) * 100; // Pembulatan ke ratusan terdekat
-            },
-
-            formatCurrency(value) {
-                if (value === 0 || value === null || isNaN(value)) {
-                    return 'Rp -';
-                }
-                return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
+            if (angka === "") {
+                el.value = "";
+                this[modelName] = 0;
+                this[modelName + "Display"] = "";
+                return;
             }
+
+            // Format angka
+            let formatted = new Intl.NumberFormat("id-ID").format(angka);
+            el.value = "Rp. " + formatted;
+
+            // Simpan angka murni ke Alpine
+            this[modelName] = parseInt(angka);
+
+            // Simpan display
+            this[modelName + "Display"] = el.value;
+        },
+
+        calculate() {
+            const sisaPokok = this.hargaBarang - this.uangMuka;
+
+            if (sisaPokok <= 0 || this.tenor === 0) {
+                this.cicilanPerBulan = 0;
+                return;
+            }
+
+            const bungaPerBulan = (sisaPokok * this.bunga) / this.tenor;
+
+            this.cicilanPerBulan =
+                (sisaPokok / this.tenor) +
+                bungaPerBulan +
+                (this.biayaAdmin / this.tenor) +
+                this.biayaBulanan;
+
+            // Pembulatan ke ratusan terdekat
+            this.cicilanPerBulan = Math.round(this.cicilanPerBulan / 100) * 100;
+        },
+
+        formatCurrency(value) {
+            if (!value || value === 0) return "Rp -";
+            return "Rp " + new Intl.NumberFormat("id-ID").format(value);
         }
     }
+}
 </script>
