@@ -32,10 +32,10 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'phone_number' => ['required', 'string', 'max:15', 'unique:'.User::class.',phone_number'],
             'address' => ['required', 'string'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
         ]);
 
         $user = User::create([
@@ -48,10 +48,6 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
-
-        Auth::login($user);
-
-        $role = $user->role;
-        return redirect(RouteServiceProvider::HOME($role));
+        return redirect()->route('login')->with('status', 'Registrasi berhasil! Silakan masuk dengan akun baru Anda.');
     }
 }
