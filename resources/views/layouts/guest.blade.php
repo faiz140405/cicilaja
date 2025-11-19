@@ -14,7 +14,14 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased text-gray-900 bg-gray-100 dark:bg-gray-900 transition duration-300" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" x-init="document.documentElement.classList.toggle('dark', darkMode)">
+    <body class="font-sans antialiased text-gray-900 bg-gray-100 dark:bg-gray-900 transition duration-300" x-data="{
+        darkMode: localStorage.getItem('darkMode') === 'true',
+        toggleDarkMode() {
+            this.darkMode = !this.darkMode;
+            localStorage.setItem('darkMode', this.darkMode);
+            document.documentElement.classList.toggle('dark', this.darkMode);
+        }
+    }" x-init="document.documentElement.classList.toggle('dark', darkMode)">
         
         {{-- TATA LETAK DUA KOLOM --}}
         <div class="min-h-screen flex">
