@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false, darkMode: localStorage.getItem('darkMode') === 'true' }" x-init="document.documentElement.classList.toggle('dark', darkMode)" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
@@ -9,26 +9,26 @@
                     </a>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex border-b">
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex border-b dark:border-gray-700">
                     @auth
                         @if (Auth::user()->role === 'admin')
                             {{-- ADMIN ACTIONS (COMPACT ICON LINKS) --}}
                             <x-nav-link  :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                                 <i class="fas fa-home mr-2"></i> {{ __('Dashboard') }}
                             </x-nav-link>
-                            
+
                             <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
                                 <i class="fas fa-folder mr-2"></i> {{ __('Kategori') }}
                             </x-nav-link>
-                            
+
                             <x-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.index')">
                                 <i class="fas fa-box-open mr-2"></i> {{ __('Produk') }}
                             </x-nav-link>
-                            
+
                             <x-nav-link :href="route('admin.submissions.index')" :active="request()->routeIs('admin.submissions.index')">
                                 <i class="fas fa-file-contract mr-2"></i> {{ __('Kredit') }}
                             </x-nav-link>
-                            
+
                             <x-nav-link :href="route('admin.payments.verify.index')" :active="request()->routeIs('admin.payments.verify.index')">
                                 <i class="fas fa-shield-alt mr-2"></i> {{ __('Verifikasi') }}
                             </x-nav-link>
@@ -42,12 +42,12 @@
                             <x-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
                                 <i class="fas fa-home mr-2"></i>{{ __('Dashboard Pelanggan') }}
                             </x-nav-link>
-                            
+
                             {{-- TAUTAN BARU: Cicilan Saya --}}
                             <x-nav-link :href="route('user.payments.index')" :active="request()->routeIs('user.payments.index')">
                                 <i class="fas fa-chart-line mr-2"></i>{{ __('Cicilan Saya') }}
                             </x-nav-link>
-                            
+
                             <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
                                 <i class="fa-brands fa-product-hunt mr-2"></i>{{ __('Semua Produk') }}
                             </x-nav-link>
@@ -89,7 +89,12 @@
             </div>
 
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <!-- Dark Mode Toggle Button for Mobile -->
+                <button @click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode); document.documentElement.classList.toggle('dark', darkMode)" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out dark:hover:bg-gray-700">
+                    <i :class="darkMode ? 'fas fa-sun' : 'fas fa-moon'" class="h-6 w-6"></i>
+                </button>
+
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out dark:hover:bg-gray-700">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -100,20 +105,20 @@
     </div>
 
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white dark:bg-gray-800 border-t dark:border-gray-700">
-        
+
         {{-- Links Navigasi Landing Page --}}
         <div class="pt-2 pb-3 space-y-1 border-b dark:border-gray-700">
-            
-            @verbatim 
+
+            @verbatim
                 <template x-for="item in navItems" :key="item.id">
-                    <a :href="item.href" 
-                       :class="{'bg-gray-100 text-indigo-700 border-indigo-400': activeSection === item.id, 'border-transparent text-gray-600 hover:text-gray-800': activeSection !== item.id}"
+                    <a :href="item.href"
+                       :class="{'bg-gray-100 dark:bg-gray-700 text-indigo-700 border-indigo-400': activeSection === item.id, 'border-transparent text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100': activeSection !== item.id}"
                        class="block w-full ps-3 pe-4 py-2 border-l-4 text-base font-medium focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700 transition duration-150 ease-in-out">
                         <span x-text="item.name"></span>
                     </a>
                 </template>
             @endverbatim
-            
+
         </div>
 
         {{-- Responsive Links Dashboard (Hanya Muncul Jika Login) --}}
@@ -161,7 +166,7 @@
                 @endif
             </div>
 
-            <div class="pt-4 pb-1 border-t border-gray-200">
+            <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
                 <div class="px-4">
                     <div class="font-medium text-base text-gray-800 dark:text-white">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
