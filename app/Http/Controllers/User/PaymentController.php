@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Models\Payment;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PaymentController extends Controller
 {
@@ -174,5 +175,28 @@ class PaymentController extends Controller
 
         return redirect()->route('user.dashboard')
                          ->with('success', 'Pengajuan pelunasan dipercepat untuk ' . $submission->product->name . ' berhasil dikirim. Menunggu verifikasi Admin.');
+    }
+    public function downloadReceipt(\App\Models\Payment $payment)
+    {
+        // 1. Keamanan: Cek apakah pembayaran ini milik user yang sedang login
+        if ($payment->submission->user_id !== auth()->id()) {
+            abort(403, 'Akses Ditolak');
+        }
+
+        // 2. Cek apakah status sudah lunas/verified
+        if ($payment->status !== 'verified') {
+            return back()->with('error', 'Kuitansi hanya tersedia untuk pembayaran yang sudah diverifikasi.');
+        }
+
+        // 3. Load View Kuitansi
+        $pdf = Pdf::loadView('pdf.receipt', compact('payment'));
+        
+        // Set ukuran kertas landscape kecil (seperti kuitansi bank) atau A4 setengah
+        $pdf->setPaper('a5', 'landscape'); 
+
+        // 4. Generate Nama File Unik
+        $fileName = 'Kuitansi-Cicilan-' . $payment->period . '-' . $payment->submission->id . '.pdf';
+
+        return $pdf->download($fileName);
     }
 }

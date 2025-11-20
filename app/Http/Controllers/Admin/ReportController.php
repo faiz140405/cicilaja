@@ -7,7 +7,8 @@ use App\Models\Submission;
 use App\Models\Payment;
 use App\Exports\SubmissionsExport;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Facades\Excel; // Untuk Excel
+use Barryvdh\DomPDF\Facade\Pdf;      // <--- PENTING: Tambahkan Import Ini
 use Carbon\Carbon;
 
 class ReportController extends Controller
@@ -37,18 +38,33 @@ class ReportController extends Controller
         return view('admin.reports.index', compact('metrics'));
     }
 
-    // Fungsi untuk Export data ke Excel
+    // Fungsi untuk Export data
     public function export(Request $request)
     {
         $format = $request->input('format', 'xlsx'); // Default ke xlsx
-        
-        // PENTING: Gunakan format yang sesuai
+        $dateStr = now()->format('Ymd_His'); // Tambahkan jam agar nama file unik
+
+        // SKENARIO 1: JIKA PDF (Gunakan DomPDF Langsung)
         if ($format === 'pdf') {
-            $fileName = 'laporan_pengajuan_' . now()->format('Ymd') . '.pdf';
-            return Excel::download(new SubmissionsExport, $fileName, \Maatwebsite\Excel\Excel::DOMPDF); 
             
-        } else {
-            $fileName = 'laporan_pengajuan_' . now()->format('Ymd') . '.xlsx';
+            // 1. Ambil Data (Sesuai query yang Anda butuhkan)
+            $submissions = Submission::with(['user', 'product'])->get();
+
+            // 2. Load View yang Anda simpan di: resources/views/pdf/submissions/report.blade.php
+            // Perhatikan path-nya: 'pdf.submissions.report'
+            $pdf = Pdf::loadView('pdf.submissions.report', compact('submissions'));
+
+            // 3. (Opsional) Set Ukuran Kertas
+            $pdf->setPaper('a4', 'portrait'); // Bisa ganti 'landscape' jika tabel lebar
+
+            // 4. Download File
+            $fileName = 'laporan_pengajuan_' . $dateStr . '.pdf';
+            return $pdf->download($fileName);
+        } 
+        
+        // SKENARIO 2: JIKA EXCEL (Gunakan Maatwebsite)
+        else {
+            $fileName = 'laporan_pengajuan_' . $dateStr . '.xlsx';
             return Excel::download(new SubmissionsExport, $fileName);
         }
     }

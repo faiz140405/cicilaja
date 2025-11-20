@@ -119,7 +119,7 @@
                                     $payment = $submission->payments->where('period', $i)->first();
                                     
                                     // Hitung tanggal jatuh tempo (Start date + i bulan)
-                                    $dueDate = $submission->created_at->addMonths($i)->setDay(5); // Misal jatuh tempo tgl 5
+                                    $dueDate = $submission->created_at->addMonths($i)->setDay(1); // Misal jatuh tempo tgl 5
                                     
                                     // Tentukan Status & Denda
                                     $status = $payment ? $payment->status : 'upcoming';

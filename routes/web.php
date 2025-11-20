@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\User\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,9 @@ Route::middleware('auth')->group(function () {
         Route::post('payments/accelerated/{submission}', [UserPaymentController::class, 'acceleratedStore'])->name('payments.accelerated');
 
         Route::get('products', [LandingController::class, 'allProducts'])->name('products.index');
+
+        Route::get('/user/payments/{payment}/receipt', [PaymentController::class, 'downloadReceipt'])
+        ->name('user.payments.receipt');
     }); // <-- Penutup GROUP USER (prefix/name)
 
 

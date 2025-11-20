@@ -123,4 +123,14 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'providers' => Illuminate\Support\ServiceProvider::defaultProviders()->merge([
+        // Package Service Providers
+        Barryvdh\DomPDF\ServiceProvider::class,
+    ])->toArray(),
+
+    'aliases' => Illuminate\Support\Facades\Facade::defaultAliases()->merge([
+        // Alias PDF
+        'Pdf' => Barryvdh\DomPDF\Facade\Pdf::class,
+    ])->toArray(),
+
 ];

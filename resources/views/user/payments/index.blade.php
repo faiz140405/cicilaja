@@ -10,7 +10,7 @@
     <div class="py-12 transition-colors duration-300">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
             
-            {{-- Notifikasi Sukses/Error (Dark Mode Compatible) --}}
+            {{-- Notifikasi Sukses/Error --}}
             @if (session('success'))
                 <div class="bg-green-100 dark:bg-green-900/50 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-200 px-4 py-3 rounded relative">
                     {{ session('success') }}
@@ -25,6 +25,7 @@
             <h3 class="text-2xl font-bold text-gray-800 dark:text-white">Daftar Cicilan Aktif ({{ count($installments) }} Pengajuan)</h3>
 
             @forelse ($installments as $data)
+                {{-- CARD WRAPPER --}}
                 <div class="bg-white dark:bg-gray-800 shadow-lg sm:rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 transition-colors duration-300">
                     
                     {{-- HEADER CARD --}}
@@ -45,25 +46,25 @@
                             Rincian Pembayaran (@currency($data['submission']->monthly_installment) / bulan)
                         </h4>
                         
-                        {{-- Tabel Cicilan --}}
-                        <div class="overflow-x-auto">
+                        {{-- TABEL CICILAN --}}
+                        <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                <thead>
-                                    <tr class="bg-gray-50 dark:bg-gray-700">
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Periode</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Jatuh Tempo</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Denda</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Aksi</th>
+                                <thead class="bg-gray-100 dark:bg-gray-700">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-24">Periode</th>
+                                        <th class="px-4 py-3 text-center text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-32">Jatuh Tempo</th>
+                                        <th class="px-4 py-3 text-center text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-32">Denda</th>
+                                        <th class="px-4 py-3 text-center text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-32">Status</th>
+                                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-200 uppercase tracking-wider">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                     @foreach ($data['periods'] as $period)
                                         @php
                                             $status = $period['status'];
-                                            $isFormActive = in_array($status, ['due', 'late', 'rejected']);
+                                            // Logic Form Aktif: Late, Due, Rejected, Upcoming
+                                            $isFormActive = in_array($status, ['due', 'late', 'rejected', 'upcoming']);
                                             
-                                            // Update Logika Badge dengan Dark Mode Classes
                                             $badge = match ($status) {
                                                 'verified' => ['text-green-800 dark:text-green-100', 'bg-green-100 dark:bg-green-900', 'LUNAS'],
                                                 'pending' => ['text-yellow-800 dark:text-yellow-100', 'bg-yellow-100 dark:bg-yellow-900', 'PENDING'],
@@ -73,68 +74,109 @@
                                                 'upcoming' => ['text-blue-800 dark:text-blue-100', 'bg-blue-100 dark:bg-blue-900', 'AKAN DATANG'],
                                                 default => ['text-gray-800 dark:text-gray-300', 'bg-gray-100 dark:bg-gray-700', 'N/A'],
                                             };
+
+                                            // Pesan Reminder
+                                            $reminderMessage = '';
+                                            // if ($status == 'due') {
+                                            //     $reminderMessage = "Sisa " . $period['due_date']->diffInDays(\Carbon\Carbon::now()) . " hari";
+                                            // } elseif ($status == 'late') {
+                                            //     // Hitung telat berapa hari (Logic sederhana)
+                                            //     $daysLate = \Carbon\Carbon::now()->diffInDays($period['due_date']); 
+                                            //     $reminderMessage = "Terlambat {$daysLate} hari";
+                                            // }
                                         @endphp
                                         
-                                        {{-- Row Color Logic --}}
-                                        <tr @if($status == 'verified') class="bg-green-50 dark:bg-green-900/20" @elseif($status == 'late') class="bg-red-50 dark:bg-red-900/20" @endif>
+                                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors duration-150 
+                                                   @if($status == 'verified') bg-green-50/50 dark:bg-green-900/10 @elseif($status == 'late') bg-red-50/50 dark:bg-red-900/10 @endif">
                                             
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-300">
-                                                {{ $period['period_number'] }}
+                                            {{-- PERIODE --}}
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-white">
+                                                Periode {{ $period['period_number'] }}
                                             </td>
                                             
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 font-semibold">
+                                            {{-- JATUH TEMPO (Center) --}}
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-600 dark:text-gray-300 text-center">
                                                 {{ $period['due_date']->format('d M Y') }}
                                             </td>
                                             
-                                            {{-- Kolom Denda --}}
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold @if($period['penalty'] > 0) text-red-600 dark:text-red-400 @else text-gray-900 dark:text-gray-400 @endif">
+                                            {{-- DENDA (Center) --}}
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-center @if($period['penalty'] > 0) text-red-600 dark:text-red-400 @else text-gray-900 dark:text-gray-400 @endif">
                                                 @currency($period['penalty']) 
                                             </td>
                                             
-                                            {{-- Kolom Status Badge --}}
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $badge[1] }} {{ $badge[0] }}">
-                                                    {{ $badge[2] }}
-                                                </span>
-                                                @if ($status == 'due')
-                                                    <p class="text-xs text-orange-500 dark:text-orange-400 mt-1 font-medium">
-                                                        Sisa {{ $period['due_date']->diffInDays(\Carbon\Carbon::now()) }} hari
-                                                    </p>
-                                                @endif
+                                            {{-- STATUS (Center) --}}
+                                            <td class="px-4 py-3 whitespace-nowrap text-center">
+                                                <div class="flex flex-col items-center justify-center">
+                                                    <span class="px-3 py-1 inline-flex text-[10px] leading-4 font-bold uppercase tracking-wide rounded-full {{ $badge[1] }} {{ $badge[0] }}">
+                                                        {{ $badge[2] }}
+                                                    </span>
+                                                    @if ($reminderMessage)
+                                                        <span class="text-[10px] mt-1 font-bold {{ $status == 'late' ? 'text-red-500 dark:text-red-400' : 'text-orange-500 dark:text-orange-400' }}">
+                                                            {{ $reminderMessage }}
+                                                        </span>
+                                                    @endif
+                                                </div>
                                             </td>
 
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            {{-- AKSI (Full Width Form) --}}
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm">
                                                 @if ($status === 'verified')
-                                                    <span class="text-green-600 dark:text-green-400 font-semibold">Lunas</span>
-                                                
-                                                @elseif ($status === 'pending' || $status === 'pending_payoff')
-                                                    <span class="text-yellow-600 dark:text-yellow-400 italic">Menunggu Verifikasi</span>
-                                                
+                                                    <div class="flex items-center text-green-600 dark:text-green-400 font-bold bg-green-50 dark:bg-green-900/20 py-1 px-3 rounded-full w-fit">
+                                                        <i class="fas fa-check-circle mr-2 text-lg"></i> Selesai
+                                                    </div>
+                                                @elseif ($status === 'pending')
+                                                    <div class="flex items-center text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-900/20 py-1 px-3 rounded-full w-fit text-xs font-medium">
+                                                        <i class="fas fa-clock mr-2"></i> Verifikasi...
+                                                    </div>
                                                 @elseif ($isFormActive)
-                                                    {{-- FORM UPLOAD BUKTI --}}
-                                                    <form action="{{ route('user.payments.store', $data['submission']) }}" method="POST" enctype="multipart/form-data" class="space-y-1">
+                                                    {{-- FORM UPLOAD COMPACT --}}
+                                                    <form action="{{ route('user.payments.store', $data['submission']) }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-2 w-full">
                                                         @csrf
                                                         <input type="hidden" name="period" value="{{ $period['period_number'] }}">
                                                         
-                                                        {{-- Input File Custom Style --}}
-                                                        <input type="file" name="proof" required 
-                                                            class="block w-full text-sm text-gray-500 dark:text-gray-400 
-                                                            file:mr-2 file:py-1 file:px-2 file:rounded-lg file:border-0 
-                                                            file:text-xs file:font-semibold 
-                                                            file:bg-indigo-50 dark:file:bg-indigo-900 
-                                                            file:text-indigo-700 dark:file:text-indigo-200
-                                                            hover:file:bg-indigo-100 dark:hover:file:bg-indigo-800"/>
+                                                        {{-- Input File (Flex Grow) --}}
+                                                        <div class="relative flex-grow min-w-0">
+                                                            <input type="file" name="proof" required 
+                                                                class="block w-full text-sm text-gray-500 dark:text-gray-300
+                                                                
+                                                                {{-- Base Input Style --}}
+                                                                bg-gray-50 dark:bg-gray-700 
+                                                                border border-gray-300 dark:border-gray-600 
+                                                                rounded-lg cursor-pointer
+                                                                
+                                                                {{-- Focus State --}}
+                                                                focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent
+                                                                
+                                                                {{-- File Button Style --}}
+                                                                file:mr-4 file:py-2 file:px-4
+                                                                file:rounded-l-lg file:border-0
+                                                                file:text-xs file:font-bold
+                                                                file:bg-indigo-600 dark:file:bg-indigo-500
+                                                                file:text-white
+                                                                
+                                                                {{-- Hover Effects --}}
+                                                                hover:file:bg-indigo-700 dark:hover:file:bg-indigo-600
+                                                                transition-all duration-200"
+                                                            />
+                                                        </div>
                                                         
-                                                        <button type="submit" class="text-xs bg-indigo-600 dark:bg-indigo-500 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 shadow-sm transition duration-150 w-full">
-                                                            Kirim Pembayaran
+                                                        {{-- Tombol Kirim (Icon Only) --}}
+                                                        <button type="submit" title="Kirim Pembayaran"
+                                                            class="flex-shrink-0 flex items-center justify-center w-8 h-8 bg-indigo-600 dark:bg-indigo-500 text-white rounded-full hover:bg-indigo-700 dark:hover:bg-indigo-600 shadow-md transition-all duration-200 transform hover:scale-110 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                            <i class="fas fa-paper-plane text-xs"></i>
                                                         </button>
-                                                        @if ($status === 'rejected')
-                                                            <p class="text-red-500 dark:text-red-400 text-xs mt-1 font-medium">Pembayaran ditolak, upload ulang.</p>
-                                                        @endif
                                                     </form>
-                                                    @error('proof')<p class="text-red-500 dark:text-red-400 text-xs mt-1">{{ $message }}</p>@enderror
+                                                    
+                                                    @if ($status === 'rejected')
+                                                        <p class="text-red-500 dark:text-red-400 text-[10px] mt-1 font-bold flex items-center">
+                                                            <i class="fas fa-exclamation-circle mr-1"></i> Ditolak, upload ulang.
+                                                        </p>
+                                                    @endif
+                                                    @error('proof')<p class="text-red-500 dark:text-red-400 text-[10px] mt-1">{{ $message }}</p>@enderror
                                                 @else
-                                                    <span class="text-blue-600 dark:text-blue-400">Belum Aktif</span>
+                                                    <span class="text-gray-400 dark:text-gray-600 text-xs font-medium flex items-center">
+                                                        <i class="fas fa-lock mr-1"></i> Terkunci
+                                                    </span>
                                                 @endif
                                             </td>
                                         </tr>
@@ -145,8 +187,10 @@
                     </div>
                 </div>
             @empty
-                <div class="bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-400 dark:border-yellow-600 text-yellow-700 dark:text-yellow-200 px-4 py-5 rounded relative">
-                    Belum ada pengajuan kredit Anda yang disetujui.
+                <div class="bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-400 dark:border-yellow-600 text-yellow-700 dark:text-yellow-200 px-6 py-8 rounded-lg text-center shadow-sm">
+                    <i class="fas fa-info-circle text-3xl mb-2 block opacity-50"></i>
+                    <p class="text-lg font-semibold">Belum ada pengajuan kredit Anda yang disetujui.</p>
+                    <p class="text-sm mt-1">Silakan ajukan kredit produk terlebih dahulu.</p>
                 </div>
             @endforelse
 
